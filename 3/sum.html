@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>compareNumber</title>
+</head>
+<body>
+    <div id="sumBox">
+            <input type="text"  />
+            <span>+</span>
+            <input type="text" class="number2"/>
+            <span>=</span>
+            <span class="result">?</span>
+            <button class="sum">求和</button>  
+    </div>
+  
+<script>
+    let sumBox=document.getElementById('sumBox');
+    let input=sumBox.getElementsByTagName('input');
+    let result=sumBox.getElementsByClassName('result')[0];
+    let sumBtn=sumBox.getElementsByClassName('sum')[0];
+
+    for(let i=0;i<input.length;i++){
+        input[i].onkeyup=function(){
+            this.value=this.value.replace(/[^(\d)|(.)]/,'');
+        }
+    }
+
+    sumBtn.onclick=function(){
+        number1=parseFloat(input[0].value);
+        number2=parseFloat(input[1].value);
+        result.innerHTML=number1+number2;
+    }
+</script>
+</body>
+</html>

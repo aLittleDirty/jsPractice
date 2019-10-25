@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="style.css" rel="stylesheet" type="text/css"/>
+    <title>login</title>
+</head>
+<body>
+    <div id="loginBox">
+        <span>用户登录</span>
+        <label for="username">用户名：</label><input type="text" id="username"/><br/>
+        <label for="password">密码：</label><input type="password" id="password"/><br/>
+        <button>登录</button>
+    </div>
+    <script>
+        let loginContainer=document.getElementById('loginBox');
+        let inputs=loginContainer.getElementsByTagName('input');
+        for(let i=0;i<inputs.length;i++){
+            inputs[i].onclick=function(){
+                this.className="focusing";
+            }
+            inputs[i].onblur=function(){
+                this.className="";
+            }
+        }
+        
+    </script>
+</body>
+</html>

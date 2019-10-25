@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>addEventListener</title>
+</head>
+<body>
+    <button>毫无用处的按钮</button>
+    <button>绑定click</button>
+    <button>解除绑定</button>
+
+    <script>
+        let buttons=document.getElementsByTagName('button');
+        
+        buttons[1].onclick=function(){
+            buttons[0].innerHTML="我可以点击了";
+            buttons[0].addEventListener("click",addEvent);
+        }
+        buttons[2].onclick=function(){
+            buttons[0].innerHTML="毫无用处的按钮";
+            buttons[0].removeEventListener("click",addEvent);
+        }
+        function addEvent(){
+                alert("我被绑定了");
+        }
+    </script>
+</body>
+</html>

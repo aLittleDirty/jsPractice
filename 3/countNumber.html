@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>countTime</title>
+</head>
+<body>
+    <button id="btn-count">0</button>
+    <script>
+        let btn=document.getElementById('btn-count');
+        let startNumber=parseInt(btn.innerHTML);
+        btn.onclick=function(){
+            btn.innerHTML=++startNumber;
+        }
+    </script>
+</body>
+</html>

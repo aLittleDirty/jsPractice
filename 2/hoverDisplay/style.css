@@ -1,0 +1,47 @@
+
+#displayBox{
+    border:1px solid rgba(0,0,0,1);
+    text-align:center;
+    width:560px;
+}
+#displayBox h1{
+    font-size:24px;
+}
+
+#displayBox ul{
+    padding:10px 0 0 10px;
+    margin:0;
+}
+#displayBox ul li{
+    list-style:none;
+    display:block;
+    border:1px solid rgba(0,0,0,1);
+    width:100px;
+    height:100px;
+    margin:0 10px 10px 0;
+    box-sizing:border-box;
+    position:relative;
+    float:left;
+    background-color:rgba(224,224,224,1);
+}
+#displayBox ul li strong{
+    display:block;
+  
+}
+
+
+#displayBox ul li img{
+    display:none;
+    position:absolute;
+    left:-15px;
+    top:-15px;
+    border:1px solid rgba(0,0,0,0.5);
+    z-index: 1;
+}
+
+#displayBox ul:after{
+    content:'';
+    display:block;
+    visibility:hidden;
+    clear:both;
+}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="style.css" rel="stylesheet" type="text/css"/>
+    <title>arrayFunction</title>
+</head>
+<body>
+            <div class="introduction">February(2),March(3),April(4),May(5),June(6),July(7),August(8),September(9),October(10),November(11)</div>
+            <button>添加January(1)</button>
+            <button>删除December(12)</button>
+        
+            <div class="introduction">0,1,2,3,4,5,6,7,8,9</div>
+            <button>复制</button>
+            <button>还原</button>
+        
+            <div class="introduction">red,green,blue,white,yellow,black,brown</div>
+            <button>还原</button>
+            <button>删除前三项</button>
+            <button>删除第二至第三项</button>
+            <button>在第二项后插入(orange,purple)</button>
+            <button>替换第二项和第三项</button>
+    
+
+    <script>
+        let array1=["February(2)","March(3)","April(4)","May(5)","June(6)","July(7)","August(8)","September(9)","October(10)","November(11)","December(12)"];
+        let array2=[0,1,2,3,4,5,6,7,8,9];
+        let array3=["red","green","blue","white","yellow","black","brown"];
+        
+        let introductions=document.getElementsByClassName('introduction');
+        let buttons=document.getElementsByTagName('button');
+        // 第一个显示框
+        let deleteHead=true;
+        let addTail=true;
+        buttons[0].onclick=function(){
+            deleteHead?array1.unshift("January(1)"):array1.shift();
+            introductions[0].innerHTML=array1.join();
+            this.innerHTML=this.innerHTML.replace("添加","删除");
+            deleteHead=!deleteHead;
+        }
+        buttons[1].onclick=function(){
+            addTail?array1.pop():array1.push("December(12)");
+            introductions[0].innerHTML=array1.join();
+            this.innerHTML=this.innerHTML.replace("删除","添加");
+            addTail=!addTail;
+        }
+        // 第二个显示框
+        buttons[2].onclick=function(){
+            // 注意：concat方法无法修改原数组
+            array2=array2.concat(array2);
+            introductions[1].innerHTML=array2.join();
+        }
+        buttons[3].onclick=function(){
+            array2.length=10;
+            introductions[1].innerHTML=array2;
+        }
+        // 第三个显示框
+        buttons[4].onclick=function(){
+            array3=["red","green","blue","white","yellow","black","brown"];
+            introductions[2].innerHTML=array3.join();
+        }
+        buttons[5].onclick=function(){
+            array3.splice(0,3);
+            introductions[2].innerHTML=array3.join();
+        }
+        buttons[6].onclick=function(){
+            array3.splice(1,2);
+            introductions[2].innerHTML=array3.join();
+        }
+        buttons[7].onclick=function(){
+            array3.splice(2,0,"orange","purple");
+            introductions[2].innerHTML=array3.join();
+        }
+        buttons[8].onclick=function(){
+            array3.splice(1,2,"#009900", "#0000ff");
+            introductions[2].innerHTML=array3.join();
+        }
+    </script>
+</body>
+</html>

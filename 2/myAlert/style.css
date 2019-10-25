@@ -1,0 +1,19 @@
+#alertDiv{
+    width: 200px;
+    height: 150px;
+    border:1px  solid rgba(200,100,0,1);
+    display: none;
+}
+#alertDiv div{
+    text-align: right;
+    border-bottom: 1px solid rgba(200,100,0,1);
+    width: 200px;
+
+}
+#alertDiv div span{
+    display:inline-block;
+    padding:0 10px;
+}
+#alertDiv div span:hover{
+    background-color:rgba(200,100,0,0.2);
+}

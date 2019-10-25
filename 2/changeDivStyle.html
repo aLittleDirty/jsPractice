@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        #contain{
+            width: 300px;
+            margin:0 auto;
+            text-align: center;
+        
+        }
+        .box{
+            display:inline-block;
+            height: 100px;
+            width: 100px;
+            margin: 20px;
+            background-color:rgba(0, 0, 0,1);
+        }
+    </style>
+    <title>控制div属性</title>
+</head>
+<body>
+    <div id="contain">
+        <button>变宽</button>
+        <button>变高</button>
+        <button>变色</button>
+        <button>隐藏</button>
+        <button>重置</button>
+        <div class="box"></div>
+    </div>
+    <script>
+        let contain=document.getElementById('contain');
+        let buttons=contain.getElementsByTagName('button');
+        let box=contain.getElementsByClassName('box');
+        let styleKeys=['width','height','background-color','display','display'];
+        let styleValues=['200px','200px','rgba(0,0,0,0.5)','none','inline-block'];
+
+        for(let i=0;i<buttons.length;i++){
+            buttons[i].index=i;
+            buttons[i].onclick=function(){
+
+                let element=box[0];
+                let styleKey=styleKeys[this.index];
+                let styleValue=styleValues[this.index];
+
+                changeStyle(element,styleKey,styleValue);
+            }
+        }
+        function changeStyle(element,styleKey,styleValue){
+            // 第一行代码可以在每次执行时，都清除掉之前用js在设置的其他style样式
+            element.style.cssText='';
+            element.style[styleKey]=styleValue;
+        }
+    </script>
+</body>
+</html>

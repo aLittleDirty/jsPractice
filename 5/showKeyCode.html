@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>showKeyCode</title>
+</head>
+
+<body>
+    <span>按下键盘键，显示keyCode</span>
+    <p></p>
+    <script>
+        let introduction = document.getElementsByTagName('p')[0];
+        document.onkeydown = function (event) {
+            let e = window.event || event;
+            introduction.innerHTML = "键名:" + e.keyCode;
+        }
+    </script>
+</body>
+
+</html>

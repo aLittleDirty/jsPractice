@@ -1,0 +1,19 @@
+
+ul li{
+    list-style: none;
+    padding: 5px;
+    margin: 0;
+}
+ul li:hover{
+    background-color: rgba(154,153,255,0.3);
+}
+ul li:nth-last-of-type(1){
+    border-top: 1px solid rgba(154,153,255,1);
+}
+ul{
+    padding: 0;
+    width:50px;
+    text-align: center;
+    border: 1px solid rgba(154,153,255,1);
+    display: none;
+}

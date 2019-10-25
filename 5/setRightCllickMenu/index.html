@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="style.css" rel="stylesheet" type="text/css"/>
+    <title>clickRight</title>
+</head>
+<body>
+    <ul id="rightMenu">
+        <li>剪切</li>
+        <li>复制</li>
+        <li>粘贴</li>
+    </ul>
+    <script>
+        let rightMenu=document.getElementById('rightMenu');
+        document.oncontextmenu=function(event){
+            let e= window.event || event ;
+            rightMenu.style.display="block";
+            rightMenu.style.left=e.clientX+"px";
+            rightMenu.style.top=e.clientY+"px";
+            return false;
+        }
+        rightMenu.onmouseleave=function(){
+            rightMenu.style.display="none";
+        }
+        rightMenu.onclick=function(){
+            rightMenu.style.display="none";
+        }
+    </script>
+</body>
+</html>

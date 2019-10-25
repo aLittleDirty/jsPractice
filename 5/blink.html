@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        div{
+            width:200px;
+            height: 200px;
+            background-color:rgba(255,0,0,1);
+        }
+    </style>
+    <title>blink</title>
+</head>
+<body>
+    <div>点击我就闪</div>
+    <script>
+        let blinkBox=document.getElementsByTagName('div')[0];
+        let i=0;
+        blinkBox.onclick=function(){
+            blink=setInterval(() => {
+                i++;
+                blinkBox.style.display=(i%2)?"block":"none";
+                if(i>6){
+                    clearInterval(blink);
+                }
+            }, 100);
+
+        }
+    </script>
+</body>
+</html>

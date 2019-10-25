@@ -1,0 +1,42 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: rgba(0, 0, 0, 1);
+    color: rgba(255, 255, 255, 1);
+}
+
+#movingBox {
+    border: 1px solid rgba(255, 255, 255, 1);
+    width: 250px;
+    position: absolute;
+}
+
+#movingBox h1 {
+    font-size: 14px;
+    text-align: right;
+    border-bottom: 1px solid rgba(255, 255, 255, 1);
+    padding: 5px;
+    background-color: rgba(50, 50, 80, 1);
+    /*   鼠标箭头样式   */
+}
+
+#movingBox h1>span {
+    z-index: 1;
+}
+
+#movingBox ul {
+    background-color: rgba(50, 50, 50, 1);
+}
+
+#movingBox ul li {
+    padding: 5px;
+    font-size: 12px;
+    list-style: none;
+}
+
+#movingBox ul li span {
+    color: rgba(230, 230, 0, 1);
+}

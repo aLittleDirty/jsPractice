@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>doubleDigit</title>
+</head>
+
+<body>
+    <input type="text" />
+    <button>判断是否是两位数</button>
+    <span>?</span>
+    <script>
+        let input = document.getElementsByTagName('input')[0];
+        let button = document.getElementsByTagName('button')[0];
+        let span = document.getElementsByTagName('span')[0];
+        input.onkeyup = function () {
+            this.value = this.value.replace(/[^(\d)]/, "");
+        }
+
+        button.onclick = function () {
+            if(input.value===""){
+                span.innerHTML="请输入数字";
+            }else if (input.value.length == 2) {
+                span.innerHTML = "yes";
+            }else{
+                span.innerHTML="No";
+            }
+        }
+    </script>
+</body>
+
+</html>

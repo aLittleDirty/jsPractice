@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        p {
+            white-space: pre;
+        }
+
+        div {
+            width: 100px;
+            height: 100px;
+            background-color: rgba(255, 0, 0, 1);
+            position: absolute;
+            top: 80px;
+            left: 400px;
+        }
+    </style>
+    <title>changeDivByKeycode</title>
+</head>
+
+<body>
+    <p>
+        请按以下键，改变div的样式:
+
+        上：↑ 下：↓ 左：← 右：→
+        Ctrl + 1 : 背景变为绿色
+        Ctrl + 2 : 背景变为黄色
+        Ctrl + 3 : 背景变为蓝色
+        Ctrl + ↑ : 放大
+        Ctrl + ↓ : 缩小
+    </p>
+    <div></div>
+    <script>
+        let movingBox = document.getElementsByTagName('div')[0];
+        
+        document.onkeydown = function (event) {
+            let code = event.keyCode;
+            let ctrl=event.ctrlKey;
+                switch (code) {
+                case 37:
+                    movingBox.style.left = movingBox.offsetLeft - 50 + "px";
+                    break;
+                case 38:
+                    ctrl?bigger(movingBox):(movingBox.style.top = movingBox.offsetTop - 50 + "px");
+                    break;
+                case 39:
+                    movingBox.style.left = movingBox.offsetLeft + 50 + "px";
+                    break;
+                case 40:
+                    ctrl?smaller(movingBox):(movingBox.style.top = movingBox.offsetTop + 50 + "px");
+                    break;
+                case 49:
+                    ctrl && (movingBox.style.backgroundColor = "green") && event.preventDefault();
+                    break;
+                case 50:
+                    ctrl && (movingBox.style.backgroundColor="yellow") && event.preventDefault();
+                    break;
+                case 51:
+                    ctrl && (movingBox.style.backgroundColor="blue") && event.preventDefault();
+                    break;
+                default:
+                    return false;
+            }
+            
+        }
+       
+        function bigger(element){
+            element.style.width=element.offsetWidth*1.5+"px";
+            element.style.height=element.offsetHeight*1.5+"px";
+        }
+        function smaller(element){
+            element.style.width=element.offsetWidth/1.5+"px";
+            element.style.height=element.offsetHeight/1.5+"px";
+
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="style.css" rel="stylesheet" type="text/css"/>
+    <title>hideMenu</title>
+</head>
+<body>
+
+    <div id="menuBox">
+        <h2>播放列表</h2>
+        <nav>
+            <a>猜不透 - 丁当</a>
+            <a>自导自演 - 周杰伦</a>
+            <a>浪漫窝 - 弦子</a>
+            <a>流年 - 王菲</a>
+            
+        </nav>
+    </div>
+
+    <script>
+        let menuTitle=document.getElementsByTagName('h2')[0];
+        let menuList=document.getElementsByTagName('nav')[0];
+        menuTitle.onclick=function(){
+            menuList.style.display=(menuList.style.display=="none")?"block":"none";
+            menuTitle.className=(menuList.style.display=="none")?"close":"";
+        }
+    </script>
+</body>
+</html>

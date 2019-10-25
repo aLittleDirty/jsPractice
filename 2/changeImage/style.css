@@ -1,0 +1,31 @@
+*{
+    padding:0;
+    margin:0;
+}
+body{
+    background-color:rgba(0,0,0,1);
+}
+#album{
+border:1px solid rgba(255,255,255,1);
+width:208px;
+background-color:rgba(255,255,255,1);
+padding:3px;
+border-radius:5px;
+}
+#album img{
+    float:left;
+    border:1px solid rgba(255,255,255,1);
+    border-radius:4px;
+
+}
+#album li{
+    list-style:none;
+}
+
+#album:after{
+    content:'';
+    height:0;
+    display:block;
+    visibility:hidden;
+    clear:both;
+}

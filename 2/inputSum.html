@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        input {
+            padding: 5px;
+            font-size: 16px;
+        }
+    </style>
+    <title>sum</title>
+</head>
+
+<body>
+    <input type="text" placeholder="填入：5，7，8，9，10..."  />
+    <button>求和</button>
+    <p></p>
+    <script>
+        let input=document.getElementsByTagName('input')[0];
+        let button = document.getElementsByTagName('button')[0];
+        let p = document.getElementsByTagName('p')[0];
+
+input.oninput=function(){
+    this.value=this.value.replace(/[^(\d)|(,)]/g,"");
+}                                 
+
+        button.onclick = function () {
+            let sum = 0;
+            let inputArray = input.value.split(',');
+            console.log(inputArray);
+            console.log(inputArray.length);
+            for (let i = 0; i < inputArray.length; i++) {
+                let eachNumber=parseFloat(inputArray[i]);
+                console.log();
+                if(!isNaN(eachNumber)){
+                sum += eachNumber;
+                }
+            }
+            p.innerHTML = sum;
+        }
+    </script>
+</body>
+
+</html>

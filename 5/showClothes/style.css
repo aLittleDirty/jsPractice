@@ -1,0 +1,13 @@
+
+#smallImg li{
+    list-style:none;
+    display:inline-block;
+    border:1px solid rgba(144,144,144,1);
+    margin:2px;
+    width:200px;
+    height: 200px;
+}
+#bigImg li{
+    display:none;
+    position:absolute;
+}

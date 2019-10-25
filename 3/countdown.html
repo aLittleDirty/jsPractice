@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>countdown</title>
+</head>
+<body>
+    <span>01</span>分钟<span>40</span>秒
+    <button value="stopCount">启动</button>
+    <script>
+        let remainSeconds=100;
+        let tips=document.getElementsByTagName('span');
+        let button=document.getElementsByTagName('button')[0];
+        button.onclick=function(){
+            //暂停计时
+            if(button.value=='counting'){
+                button.innerHTML="启动";
+                button.value='stopCount';
+                clearTimeout(countTime);
+            }else{
+                //启动计时
+                button.value="counting";
+                button.innerHTML="暂停";
+                countTime=setInterval(countdown,1000);
+            }
+        }
+        function countdown(){
+            remainSeconds--;
+            let minute=Math.floor(remainSeconds/60);
+            let second=remainSeconds%60;
+            tips[0].innerHTML=format(minute);
+            tips[1].innerHTML=format(second);
+            if(remainSeconds<=0){
+                clearTimeout(countTime);
+            }
+        }
+        function format(a){
+            return a.toString().replace(/^(\d)$/,'0$1');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+*{
+    margin:0;
+    padding:0;
+}
+#rightMenu{
+    border:1px solid rgba(144,144,144,1);
+    width:130px;
+    font-size:14px;
+    position:absolute;
+}
+#rightMenu li{
+list-style:none;
+}
+#rightMenu .firstMenu>li{
+background:url("http://www.fgm.cc/learn/lesson6/img/arrow.png") no-repeat 115px 8px rgba(230,230,230,1);
+}
+/* 没解决如何选择.secondMenu的第三个子元素问题 */
+/*因第一，二个元素宽度不够，才导致看不见background-image */
+#rightMenu .secondMenu>li:nth-of-type(3n+1){
+    background:url("http://www.fgm.cc/learn/lesson6/img/arrow.png") no-repeat 310px 8px rgba(230,230,230,1);
+}
+#rightMenu .firstMenu>li:nth-of-type(1){
+    background-image:none;
+}
+
+#rightMenu .secondMenu,.thirdMenu{
+    display:none;
+    position:absolute;
+    top:2px;
+    left:130px;
+    border:1px solid rgba(144,144,144,1);
+    white-space:nowrap;
+    padding:1px 10px 1px 5px;
+     background-color:rgba(230,230,230,1);
+}
+
+#rightMenu .thirdMenu{
+    left:325px;
+}
+
+#rightMenu .firstMenu>li,.secondMenu>li,.thirdMenu>li{
+    padding:3px;
+    position:relative;
+}

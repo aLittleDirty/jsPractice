@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="style.css" rel="stylesheet" type="text/css"/>
+    <title>changeDivStyle</title>
+</head>
+<body>
+    <label>属性名：</label><input id="styleName" type="text"><br/>
+    <label>属性值：</label><input id="styleValue" type="text"><br/>
+    <button id="btn-setAttr">设置</button>  <button id="btn-renewAttr">重置</button>
+    <p id='shape'>
+        hello!world!
+    </p>
+    <script>
+        let styleName=document.getElementById('styleName');
+        let styleValue=document.getElementById('styleValue');
+        let btnSetAttr=document.getElementById('btn-setAttr');
+        let btnRenew=document.getElementById('btn-renewAttr');
+        let shapeDiv=document.getElementById('shape');
+        btnSetAttr.onclick=function(){
+            let element=shapeDiv;
+            let name=styleName.value;
+            let value=styleValue.value;
+            setAttr(element,name,value);
+        }
+        btnRenew.onclick=function(){
+            shapeDiv.style.cssText='';
+        }
+        function setAttr(element,name,value){
+            element.style[name]=value;
+        }
+    </script>
+</body>
+</html>

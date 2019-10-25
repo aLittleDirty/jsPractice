@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>showClickPos</title>
+</head>
+
+<body>
+    <span>点击屏幕任意位置，显示坐标</span>
+    <p></p>
+    <script>
+        let introduction = document.getElementsByTagName('p')[0];
+        document.onclick = function (event) {
+            let e = event || window.event;
+            introduction.innerHTML = "坐标:（" + e.clientX + ", " + e.clientY + "）";
+        }
+    </script>
+</body>
+
+</html>

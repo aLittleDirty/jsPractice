@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>clock</title>
+</head>
+<body>
+    <div id="clockBox">
+        <span>0</span>时
+        <span>0</span>分
+        <span>0</span>秒
+    </div>
+    <script>
+        window.onload=function(){
+            setInterval(renewTime,1000);
+        }
+        let clockBox=document.getElementById('clockBox');
+        let timeTips=clockBox.getElementsByTagName('span');
+      
+        function renewTime(){
+            let times=new Date();
+            let timesArr=[times.getHours(),times.getMinutes(),times.getSeconds()];
+            for(let i=0;i<timesArr.length;i++){
+                timeTips[i].innerHTML= format(timesArr[i]);
+            }
+        }
+        function format(a){
+            return a.toString().replace(/^(\d)$/,'0$1');
+        }
+    </script>
+</body>
+</html>
