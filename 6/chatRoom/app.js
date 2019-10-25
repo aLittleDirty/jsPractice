@@ -8,16 +8,18 @@ let chatUl = document.getElementsByClassName('chatRecordList')[0].getElementsByT
 let currentImageSrc="http://www.fgm.cc/learn/lesson6/img/face1.gif";
 
 /* 目前欠缺功能：
-头像点击后，维持红色边框;
 还能输入多少个字的提示
 插入新li的动画设置
 li的删除功能
 */ 
+
+// 将新节点插入到ul的第一个位置
 sharingBtn.onclick = function () {
     let newElement = createNode(currentImageSrc,getChatMessage(nameInput, textarea),getCurrentTime());
     let targetElement = chatUl.firstElementChild;
     chatUl.insertBefore(newElement, targetElement);
 }
+// 创造新的节点
 function createNode(image,message,time){
     // 判断是否存在message
     if(!message){
@@ -25,8 +27,9 @@ function createNode(image,message,time){
     }
     let li=document.createElement('li');
     li.innerHTML="<img src="+image+"><p class='chatContent'>"+message+"</p><span>"+time+"</span>";
-return li;   
+    return li;   
 }
+// 获取当前的时间
 function getCurrentTime(){
     let date = new Date();
     let month=date.getMonth()+1;
@@ -35,20 +38,28 @@ function getCurrentTime(){
     let minute=date.getMinutes();
     return month+"月"+day+"日"+" "+hour+":"+minute;
 };
-
+// 初始化，选择当前的图片
 function getCurrentImage(){
+    // 初始化起始图片
+    let cacheImage=images[0];
+    cacheImage.className="active";
     for(let i=0;i<images.length;i++){
 
+// 每次点击时，保存当前图片的链接，将当前图片设置为缓存图片(旧图片)
+
         images[i].onclick=function(){
+            cacheImage.className="";
             currentImageSrc=this.src;
-            console.log(currentImageSrc);
+            this.className="active";
+            cacheImage=this;  
+
         }
 
     }
 }
 getCurrentImage();
 
-
+// 组合姓名框和内容框信息
 function getChatMessage(nameElement, contentElement) {
     let nameMessage = nameElement.value;
     let contentMessage = contentElement.value;
