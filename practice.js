@@ -43,3 +43,4 @@
 //     this.money=this.money+cash;
 //     this.output(good);
 // }
+

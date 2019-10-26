@@ -1,0 +1,44 @@
+*{
+    padding:0;
+    margin:0;
+}
+body{
+    background-color:rgba(0,0,0,1);
+}
+#carouselBox{
+    border:6px solid rgba(255,255,255,1);
+    width:490px;
+    height:170px;
+    position:relative;
+    border-radius:6px;
+    /* overflow: hidden; */
+}
+#carouselBox ul{
+    width:490px;
+    height:850px;
+    /*   消除inline-block产生的空隙   */
+    font-size:0;
+    position:absolute;
+}
+#carouselBox ul li{
+    height: 170px;
+}
+#carouselBox ol{
+    position:absolute;
+    top:140px;
+    left:350px;
+}
+#carouselBox ol li{
+   background-color:rgba(255,153,0,1);
+    border-radius:20px;
+    width:20px;
+    height:20px;
+    text-align:center;
+    display:inline-block;
+    line-height:20px;
+    font-size:12px;
+    margin-left:5px;
+}
+#carouselBox ol li.active{
+    background-color:rgba(255,102,0,1);
+}

@@ -3,12 +3,15 @@ let images = chatArea.getElementsByTagName('img');
 let nameInput = chatArea.getElementsByTagName('input')[0];
 let textarea = chatArea.getElementsByTagName('textarea')[0];
 let sharingBtn = chatArea.getElementsByTagName('button')[0];
+let tips=chatArea.getElementsByClassName('remainWord')[0];
 
-let chatUl = document.getElementsByClassName('chatRecordList')[0].getElementsByTagName('ul')[0];
+let chatRecordList=document.getElementsByClassName('chatRecordList')[0];
+let chatUl = chatRecordList.getElementsByTagName('ul')[0];
+let deleteBtns=chatRecordList.getElementsByTagName('button');
 let currentImageSrc="http://www.fgm.cc/learn/lesson6/img/face1.gif";
-
+let remainNumber=140;
 /* 目前欠缺功能：
-还能输入多少个字的提示
+textarea输入时的字数提示
 插入新li的动画设置
 li的删除功能
 */ 
@@ -26,7 +29,7 @@ function createNode(image,message,time){
         return;
     }
     let li=document.createElement('li');
-    li.innerHTML="<img src="+image+"><p class='chatContent'>"+message+"</p><span>"+time+"</span>";
+    li.innerHTML="<img src="+image+"><p class='chatContent'>"+message+"</p><span>"+time+"</span><button>删除</button>";
     return li;   
 }
 // 获取当前的时间
@@ -40,7 +43,7 @@ function getCurrentTime(){
 };
 // 初始化，选择当前的图片
 function getCurrentImage(){
-    // 初始化起始图片
+    // 初始化缓存图片
     let cacheImage=images[0];
     cacheImage.className="active";
     for(let i=0;i<images.length;i++){
@@ -76,3 +79,20 @@ function getChatMessage(nameElement, contentElement) {
     }
     return nameMessage + ":" + contentMessage;
 }
+// 剩余字数提示
+// 没支持中文输入。
+// 没支持字数回删操作
+// textarea.onkeydown=function(event){
+//    let e=event||window.event;
+//     if(e.keycode===8){
+//         console.log('aaa');
+//         remainNumber++;
+//     }else{
+//         remainNumber--;
+//     }
+//     tips.innerHTML=remainNumber;
+// }
+// 删除按钮
+
+    
+
