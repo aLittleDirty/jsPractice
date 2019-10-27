@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <title>moveMan</title>
+</head>
+
+<body>
+    <button id="straight">根据鼠标点击位置移动</button>
+    <button id="curve">根据标鼠标轨迹移动</button>
+    <p>请点击按钮激活功能！</p>
+    <div id="imageContainer"></div>
+    <script>
+        let flyMan = document.getElementById('imageContainer');
+        let tips = document.getElementsByTagName('p')[0];
+        let straightBtn = document.getElementById('straight');
+        let curveBtn=document.getElementById('curve');
+        let straightActive = false;
+
+        straightBtn.onclick = function () {
+            if (straightActive) {
+                return;
+            }
+            straightBtn.innerHTML += "(已激活)";
+            tips.innerHTML = "鼠标点击页面， 人物将移动至鼠标位置！";
+            // 点击页面移动人物
+            document.onmouseup = function (event) {
+               
+                flyMan.className = "active";
+
+                let currentX = flyMan.offsetLeft;
+                let currentY = flyMan.offsetTop;
+                let targetX = event.clientX;
+                let targetY = event.clientY;
+                let eachStepX = (targetX - currentX) / 10;
+                let eachStepY = (targetY - currentY) / 10;
+                console.log("eachStepX: " + eachStepX + ", eachStepY: " + eachStepY);
+                console.log("targetX: " + targetX + ", targetY: " + targetY);
+                console.log("currentX: " + currentX + ", currentY: " + currentY);
+                straightMove = setInterval(() => {
+                    if (currentY == targetY && currentX == targetX) {
+                        clearInterval(straightMove);
+                        flyMan.className = "";
+                    } else {
+                        currentX += eachStepX;
+                        currentY += eachStepY;
+                        // console.log("tY"+targetY);
+                        // console.log("tX"+targetX);
+                        console.log("cY"+currentY);
+                        console.log("cX"+currentX);
+                        flyMan.style.top = currentY + "px";
+                        flyMan.style.left = currentX + "px";
+                    }
+                }, 30);
+
+            }
+        }
+
+      
+
+
+    </script>
+</body>
+
+</html>

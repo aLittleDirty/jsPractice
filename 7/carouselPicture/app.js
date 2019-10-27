@@ -27,6 +27,7 @@ for (let i = 0; i < imageLists.length; i++) {
 // 自动轮播
 
 // function autoplay(element,index){
+    // let index=0;
 //     while(index<imageLists.length){
 //         index++;
 //         let targetPosition=containerTop-(index*eachImageHeight);
@@ -38,14 +39,18 @@ for (let i = 0; i < imageLists.length; i++) {
 //         }  
 //     }
 // }
-autoplay(imagesBox,0);
+// autoplay(imagesBox,0);
 
 function animatePlay(element, targetPosition) {
-    let step = 10;
-   
-    play = setInterval(()=>{
-        let current = element.offsetTop;
 
+    let step = 10;
+    let current = 0;
+    play = setInterval(()=>{
+
+        current = element.style.top;
+        console.log(element.offsetTop);
+        console.log(element.style.top);
+        console.log(current);
         step=current>targetPosition?-step:step;
 
         console.log("targetPosition:"+targetPosition);
@@ -59,7 +64,8 @@ function animatePlay(element, targetPosition) {
             clearInterval(play);
             element.style.top=targetPosition+"px";
         }
+
         
-    }, 30)
+    }, 300)
 
 }
