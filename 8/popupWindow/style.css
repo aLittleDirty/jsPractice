@@ -16,9 +16,7 @@ body{
     left:200px;
     background-color: rgba(200,200,200,1);
 }
-#T-Bar,#L-Bar,#B-Bar,#R-Bar,#TL-Bar,#TR-Bar,#BL-Bar,#BR-Bar{
-    opacity: 0;
-}
+
 #T-Bar,#B-Bar{
     position:absolute;
     width:100%;
@@ -47,8 +45,8 @@ body{
 
 #TL-Bar,#TR-Bar,#BL-Bar,#BR-Bar{
     position:absolute;
-    width:10px;
-    height:10px;
+    width:15px;
+    height:15px;
 }
 #TL-Bar{
     top:0;
@@ -69,7 +67,7 @@ body{
     right:0;
     bottom:0;
     cursor:se-resize;
-    background: url("http://www.fgm.cc/learn/lesson8/img/resize.png") center center no-repeat;
+    background: url("http://www.fgm.cc/learn/lesson8/img/resize.png") no-repeat;
 }
 #content h2{
     font-size:14px;
@@ -124,12 +122,37 @@ body{
     width:100%;
     height:100%;
     position:absolute;
+    top:0;
+    left:0;
     box-sizing:border-box;
-    background:url("http://www.fgm.cc/learn/lesson8/img/resize.png") 310px 400px no-repeat rgba(200,200,200,1);
 }
-#resizeBox.max #maxiBtn{
-    background-position:  -148px 0 ;
+#resizeBox.max #getSmallerBtn{
+    position: absolute;
+    top:5px;
+    right:40px;
+    width:22px;
+    height:20px;
+    background:url("http://www.fgm.cc/learn/lesson8/img/tool.png");
+    background-color:transparent;
+    border:0;
+    outline:none;
+    background-position:-148px 0 ;
 }
-#resizeBox.max #maxiBtn:hover{
+#resizeBox.max #getSmallerBtn:hover{
     background-position:-148px -29px;
+}
+/* 框最小化时 */
+#getLargerBtn{
+    display: block;
+    width:22px;
+    height:20px;
+    border:0;
+    margin:10px auto;
+    outline:none;
+    background:url("http://www.fgm.cc/learn/lesson8/img/tool.png");
+    background-color:transparent; 
+}
+
+#getLargerBtn:hover{
+    background-position: 0 -29px;
 }
