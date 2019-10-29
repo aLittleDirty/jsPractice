@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <title>dragBox</title>
+</head>
+
+<body>
+    <div id="dragBox1"></div>
+    <div id="dragBox2"></div>
+    <script>
+        let zIndex = 1;
+
+        let dragBox1 = document.getElementById('dragBox1');
+        let dragBox2 = document.getElementById('dragBox2');
+
+        function drag(target) {
+            target.onmousedown = function (event) {
+                // 获取鼠标位置距离元素的顶端和左侧的长度
+                let distanceX = event.clientX - target.offsetLeft;
+                let distanceY = event.clientY - target.offsetTop;
+
+                // 创建一个移动的元素
+                let tempBox = document.createElement("div");
+                tempBox.id = "tempBox";
+                tempBox.style.left = this.offsetLeft + "px";
+                tempBox.style.top = this.offsetTop + "px";
+                tempBox.style.zIndex = zIndex++;
+                document.body.appendChild(tempBox);
+
+
+                document.onmousemove = function (event) {
+                    let currentPosX = event.clientX - distanceX;
+                    let currentPosY = event.clientY - distanceY;
+                    // 边界条件
+                    let maxWidth = document.documentElement.clientWidth - distanceX;
+                    let maxHeight = document.documentElement.clientHeight - distanceY;
+                    if (currentPosY < 0) {
+                        currentPosY = 0;
+                    }
+                    if (currentPosY > maxHeight) {
+                        currentPosY = maxHeight;
+                    }
+                    if (currentPosX < 0) {
+                        currentPosX = 0;
+                    }
+                    if (currentPosX > maxWidth) {
+                        currentPosX = maxWidth;
+                    }
+                    //元素移动
+                    tempBox.style.top = currentPosY + "px";
+                    tempBox.style.left = currentPosX + "px";
+                }
+
+                document.onmouseup = function (event) {
+                    document.onmousemove = null;
+                    document.onmouseup = null;
+                    target.style.left = tempBox.style.left;
+                    target.style.top = tempBox.style.top;
+                    target.style.zIndex = tempBox.style.zIndex;
+                    document.body.removeChild(tempBox);
+                }
+            }
+
+        }
+
+        // 初始化
+        drag(dragBox1);
+        drag(dragBox2);
+    </script>
+</body>
+
+</html>
