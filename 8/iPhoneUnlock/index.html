@@ -4,10 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="style.css" rel="stylesheet" type="text/css"/>
     <title>iPhoneUnlock</title>
 </head>
 <body>
-    <div id="boundary"><span></span></div>
-    <script></script>
+    <div id="boundary">
+        <div id="bar">
+            <span></span>
+        </div>
+    </div>
+    <script>
+        let boundary=document.getElementById('boundary');
+        let bar=document.getElementById('bar');
+        let lockBtn=boundary.getElementsByTagName('span')[0];
+        let max=bar.offsetWidth-lockBtn.offsetWidth;
+
+        lockBtn.onmousedown=function(e){
+            let distanceX=e.clientX-this.offsetLeft;
+
+            document.onmousemove=function(event){
+                let e=event || window.event;
+                let moveLength=e.clientX-distanceX;
+
+                if(moveLength<0){
+                    moveLength=0;
+                }
+                if(moveLength>max){
+                    moveLength=max;
+                }
+                if(moveLength==max){
+                    boundary.className="unlock";
+                }   
+                lockBtn.style.left=moveLength+"px";
+
+            }
+            document.onmouseup=function(){
+                document.onmousemove=null;
+                document.onmouseup=null;
+
+                if(lockBtn.offsetLeft>max/2){
+                    moveTo(max,function(){
+                        boundary.className="unlock";
+                    });
+                }else{
+                    moveTo(0);
+                }
+            }
+            // 防抖函数
+            function moveTo(targetPos,toEnd){
+                clearInterval(lockBtn.timer);
+                lockBtn.timer=setInterval(function(){
+                    move(targetPos,toEnd)
+                },30);
+            }
+            // 执行函数
+            function move(targetPos,toEnd){
+                let currentPos=lockBtn.offsetLeft;
+                let step=(targetPos-currentPos)/5;
+                step=step>0?Math.ceil(step):Math.floor(step);
+                if(currentPos===targetPos){
+                    clearInterval(lockBtn.timer);
+                    if(toEnd){
+                        toEnd();
+                    }
+                }else{
+                    currentPos+=step;
+                    lockBtn.style.left=currentPos+"px";
+                }
+            }
+            
+            
+        }
+      
+        
+    </script>
 </body>
 </html>

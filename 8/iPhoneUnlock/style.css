@@ -1,0 +1,32 @@
+#boundary{
+    background:url("http://fgm.cc/iphone/1.jpg") no-repeat;
+    background-size:300px 500px;
+    width:300px;
+    height:500px;
+    margin:0 auto;
+    position: relative;
+}
+#bar{
+    position:absolute;
+    width:250px;
+    height:50px;
+    top:425px;
+    left:25px;
+}
+#boundary span{
+    background:url("http://fgm.cc/iphone/btn.jpg") no-repeat;
+    background-size:100px 50px;
+    position:absolute;
+    width:100px;
+    height:50px;
+}
+#boundary.unlock{
+    background:url("http://fgm.cc/iphone/2.jpg") no-repeat;
+    background-size:300px 500px;
+    width:300px;
+    height:500px;
+    margin:0 auto;
+}
+#boundary.unlock span{
+    display:none;
+}
