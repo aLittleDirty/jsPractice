@@ -1,32 +1,46 @@
-form{
-    border:2px dashed rgba(144,144,144,1);
-    width:400px;
-    margin:10px;
-    padding:20px;
-    float:left;
-    font-size:14px;
+form {
+    border: 2px dashed rgba(144, 144, 144, 1);
+    width: 400px;
+    margin: 10px;
+    padding: 20px;
+    float: left;
+    font-size: 14px;
 }
 
-.item{
-    padding:5px;
+.item {
+    padding: 5px;
 }
 
-input{
-border:0;
-    font-size:12px;
-    border-radius:5px;
+input {
+    background: url('http://www.fgm.cc/learn/lesson9/WellForm/WellForm.gif') no-repeat;
+    border: 0;
+    font-size: 12px;
+    border-radius: 5px;
 }
 
-input[type=text],input[type=password]{
-    background:url('http://www.fgm.cc/learn/lesson9/WellForm/WellForm.gif')  no-repeat;
-    height:19px;
-    width:150px;
+input[type=text],
+input[type=password] {
+    height: 19px;
+    width: 150px;
 }
 
-input[type=text]:hover,input[type=password]:hover{
-    background-position:0 -21px;
+input[type=text]:hover,
+input[type=password]:hover {
+    background-position: 0 -21px;
 }
-input[type=submit]{
-       background:url('http://www.fgm.cc/learn/lesson9/WellForm/WellForm.gif')  no-repeat;
-       background-position:
+
+input[type=submit] {
+    width: 60px;
+    height: 24px;
+    background-position: 0 -167px;
+    position: relative;
+    left: 50px;
+}
+
+textarea{
+    width:200px;
+    height:100px;
+}
+.textareaLabel{
+    vertical-align: top;
 }
