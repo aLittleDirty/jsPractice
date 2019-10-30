@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        #imagesBox {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+    </style>
+    <title>scaleBar</title>
+</head>
+
+<body>
+    <div id="imagesBox">
+        <img src="http://www.fgm.cc/learn/lesson9/img/1.png" />
+        <img src="http://www.fgm.cc/learn/lesson9/img/2.png" />
+        <img src="http://www.fgm.cc/learn/lesson9/img/3.png" />
+        <img src="http://www.fgm.cc/learn/lesson9/img/4.png" />
+        <img src="http://www.fgm.cc/learn/lesson9/img/5.png" />
+        <img src="http://www.fgm.cc/learn/lesson9/img/6.png" />
+        <img src="http://www.fgm.cc/learn/lesson9/img/7.png" />
+        <img src="http://www.fgm.cc/learn/lesson9/img/8.png" />
+    </div>
+    <script>
+        let imagesBox=document.getElementById('imagesBox');
+        let images = imagesBox.getElementsByTagName('img');
+
+        // window.onload后，图片才加载进来，如果不写window.onload，会导致图片的宽度为0
+        window.onload = function () {
+
+            // 储存每张图片的原始宽度，图片初始化
+            let widthContainer = [];
+
+            for (let i = 0; i < images.length; i++) {
+                widthContainer.push(images[i].offsetWidth);
+                images[i].width = parseInt(images[i].offsetWidth / 2);
+            }
+
+            document.onmousemove=function(event){
+                let e = event || window.event;
+                // 获得每张图片中心(x,y)与当前鼠标的(x,y)的距离,给每张图片设置放大值
+                for(let i=0;i<images.length;i++){
+                    let x = e.clientX -  images[i].offsetLeft - images[i].offsetWidth/2;
+                    let y = e.clientY - images[i].offsetTop - imagesBox.offsetTop - images[i].offsetHeight/2;
+                    let scaleRange = 1 - Math.sqrt(x*x+y*y)/300;
+                    // 如果图片的放大程度小于初始化的值，则设为初始化的值
+                    if(scaleRange<0.5){
+                        scaleRange = 0.5;
+                    }
+                    images[i].width = parseInt(widthContainer[i]*scaleRange);
+                    
+                }
+            }
+
+        }
+
+    </script>
+</body>
+
+</html>
