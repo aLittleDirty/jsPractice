@@ -7,6 +7,7 @@ let posData = [];
 // 初始化拼图顺序
 let imageData = [];
 function order(){
+    imageData.length = 0;
     for (let i = 0; i < 15; i++) {
         imageData.push(i + 1);
     }
@@ -32,6 +33,7 @@ for (let i = 0; i < options.length; i++) {
 // 初始化开始游戏按钮
 startButton.onclick=function(){
     playGame(true);
+    startButton.innerHTML = "重新开始";
     
 }
 
@@ -74,7 +76,7 @@ function addPuzzle() {
 
 function setAbsolutePos() {
     let lists = puzzleBox.getElementsByTagName('li');
-
+console.log(lists.length);
     for (let i = 0; i < lists.length; i++) {
         lists[i].style.left = lists[i].offsetLeft + "px";
         lists[i].style.top = lists[i].offsetTop + "px";
