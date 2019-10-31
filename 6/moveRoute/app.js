@@ -1,7 +1,7 @@
 let movingBox = document.getElementById("movingBox");
 let dragArea = movingBox.getElementsByTagName('h1')[0];
-let tips = movingBox.getElementsByTagName('li');
-let replayBtn = dragArea.getElementsByTagName('span')[0];
+let tips = movingBox.getElementsByTagName('span');
+let replayBtn = tips[0];
 // 初始值：
 movingBox.style.top = 211 + "px";
 movingBox.style.left = 161 + "px";
@@ -18,19 +18,20 @@ dragArea.onmousedown = function (event) {
     // 获取鼠标点击的坐标和div的左上角坐标的间隔
     distanceX = event.clientX - movingBox.offsetLeft;
     distanceY = event.clientY - movingBox.offsetTop;
-
+    tips[1].innerHTML = drag ;
 }
 dragArea.onmousemove = function (event) {
     if (!drag) {
         return;
     }
-    routeArray.push({
-        x: event.clientX - distanceX,
-        y: event.clientY - distanceY
-    });
+    let currentX = event.clientX - distanceX;
+    let currentY = event.clientY - distanceY;
+    tips[2].innerHTML = currentY;
+    tips[3].innerHTML = currentX;
+    routeArray.push({ x : currentX , y : currentY });
     // 鼠标位置变化时，div跟随变化位置
-    movingBox.style.left = event.clientX - distanceX + "px";
-    movingBox.style.top = event.clientY - distanceY + "px";
+    movingBox.style.left = currentX + "px";
+    movingBox.style.top = currentY + "px";
 }
 dragArea.onmouseup = function () {
     drag = false;
@@ -43,8 +44,13 @@ replayBtn.onclick = function () {
         let currentPos = routeArray.pop();
         movingBox.style.left = currentPos.x + "px";
         movingBox.style.top = currentPos.y + "px";
+
+        tips[2].innerHTML = currentPos.x;
+        tips[3].innerHTML = currentPos.y;
         if (routeArray.length == 1) {
             clearInterval(timer);
+            drag = false ;
+            tips[1].innerHTML = drag ;
         }
     }, 30);
 

@@ -20,11 +20,13 @@ body {
     border-bottom: 1px solid rgba(255, 255, 255, 1);
     padding: 5px;
     background-color: rgba(50, 50, 80, 1);
-    /*   鼠标箭头样式   */
+    user-select: none;
+    cursor: move;
 }
 
 #movingBox h1>span {
     z-index: 1;
+    cursor: pointer;
 }
 
 #movingBox ul {
