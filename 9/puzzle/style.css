@@ -30,21 +30,23 @@ button {
     width: 410px;
     font-size: 0;
     margin: 0 auto;
-    position:relative;
+    position: relative;
 
 }
 
 #puzzle li {
     list-style: none;
     display: inline-block;
+    width: 82px;
+    height: 190px;
 }
 
-#puzzle #mask{
-    position:absolute;
-    top:0;
-    left:0;
-    width:410px;
-    height:570px;
-    background-color:rgba(0,0,0,0);
-    z-index:999;
+#puzzle #mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 410px;
+    height: 570px;
+    background-color: rgba(0, 0, 0, 0);
+    z-index: 999;
 }
