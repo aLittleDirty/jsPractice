@@ -1,12 +1,13 @@
-#imageContainer{
+#flyMan {
     background: url(http://www.fgm.cc/learn/lesson7/img/1.gif);
     position: absolute;
-    width:40px;
-    height:40px;
+    width: 40px;
+    height: 40px;
 }
-#imageContainer.active{
+
+#flyMan.active {
     background: url(http://www.fgm.cc/learn/lesson7/img/2.gif);
     position: absolute;
-    width:65px;
-    height:45px;
+    width: 65px;
+    height: 45px;
 }
