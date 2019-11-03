@@ -1,129 +1,172 @@
-*{
-    margin:0;
-    padding:0;
-}
-body{
-    background-color:rgba(0,0,0,1);
-}
-#chatRoom{
-    width:670px;
-    margin:0 auto;
-    background-color:rgba(255,255,255,1);
-    border-radius:10px;
-    position:relative;
-    padding:20px 20px;
-}
-#chatRoom .chatArea{
-    position:relative;
-}
-#chatRoom .chatArea h1{
-    font-size:18px;
-    padding:5px;
+* {
+    margin: 0;
+    padding: 0;
 }
 
-#chatRoom .chatArea input{
-    font-size:24px;
-    width:200px;
-    padding:5px;
-    margin:10px;
-    border:1px solid rgba(200,200,200,1);
-    border-radius:5px;
+body {
+    background-color: rgba(0, 0, 0, 1);
 }
-#chatRoom .chatArea ul{
-position:absolute;
-top:38px;
-left:250px;
+
+#chatRoom {
+    width: 670px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 10px;
+    position: relative;
+    padding: 20px 20px;
 }
-#chatRoom .chatArea ul li{
-    list-style:none;
-    float:left;
-margin:5px;
+
+#chatRoom .chatArea {
+    position: relative;
 }
-#chatRoom .chatArea ul li img{
-    width:40px;
-    opacity:0.5;
+
+#chatRoom .chatArea h1 {
+    font-size: 18px;
+    padding: 5px;
 }
-#chatRoom .chatArea ul img.active{
-    border:1px solid rgba(255,0,0,1);
-    opacity:1;
+
+#chatRoom .chatArea input {
+    font-size: 24px;
+    width: 200px;
+    padding: 5px;
+    margin: 10px;
+    border: 1px solid rgba(200, 200, 200, 1);
+    border-radius: 5px;
 }
-#chatRoom .chatArea ul img:hover{
-    opacity:1;
-    border:1px solid rgba(255,0,0,1);
+
+#chatRoom .chatArea ul {
+    position: absolute;
+    top: 38px;
+    left: 250px;
 }
-.chatArea textarea{
-    display:block;
-    margin:10px;
-    width:650px;
-    height:100px;
-    border:1px solid rgba(200,200,200,1);
-    border-radius:6px;
-    padding:5px;
-    font-size:18px;
+
+#chatRoom .chatArea ul li {
+    list-style: none;
+    float: left;
+    margin: 5px;
 }
-.chatArea span{
-    color:rgba(144,144,144,1);
-    font-size:20px;
-    position:absolute;
-    left:400px;
+
+#chatRoom .chatArea ul li img {
+    width: 40px;
+    opacity: 0.5;
 }
-.chatArea button{
-    float:right;
-    width:112px;
-    height:30px;
-    background-color:transparent;
-    border:0;
-    background:url("http://www.fgm.cc/learn/lesson6/img/btn.png")
+
+#chatRoom .chatArea ul img.active {
+    border: 1px solid rgba(255, 0, 0, 1);
+    opacity: 1;
 }
-.chatArea button:hover{
-    background-position:0 -30px;
+
+#chatRoom .chatArea ul img:hover {
+    opacity: 1;
+    border: 1px solid rgba(255, 0, 0, 1);
 }
-.chatArea:after{
-    content:'';
-    display:block;
-    clear:both;
-    visibility:hidden;
+
+.chatArea textarea {
+    display: block;
+    margin: 10px;
+    width: 650px;
+    height: 100px;
+    border: 1px solid rgba(200, 200, 200, 1);
+    border-radius: 6px;
+    padding: 5px;
+    font-size: 18px;
 }
-.chatRecordList{
-    margin-top:20px;
+
+.chatArea span {
+    color: rgba(144, 144, 144, 1);
+    font-size: 20px;
+    position: absolute;
+    left: 400px;
 }
-.chatRecordList nav{
-    height:40px;
-    background:rgba(227,234,236,1);
-    position:relative;
+
+.chatArea button {
+    float: right;
+    width: 112px;
+    height: 30px;
+    background-color: transparent;
+    border: 0;
+    background: url("http://www.fgm.cc/learn/lesson6/img/btn.png")
 }
-.chatRecordList nav li{
-    list-style:none;
-    width:100px;
-    text-align:center;
-    background:rgba(255,255,255,1);
-    position:absolute;
-    top:10px;
-    left:15px;
-    font-size:15px;
-    height:30px;
-    line-height:30px;
-    border-top-left-radius:5px;
-    border-top-right-radius:5px;
+
+.chatArea button:hover {
+    background-position: 0 -30px;
 }
-.chatRecordList ul li{
-    padding:10px 5px 10px 60px;
-    border-bottom:1px dashed rgba(200,200,200,1);
-    list-style:none; 
-display:relative;
+
+.chatArea:after {
+    content: '';
+    display: block;
+    clear: both;
+    visibility: hidden;
 }
- 
-.chatRecordList ul li img{
-     border:1px solid rgba(180,180,180,1);
-     border-radius:3px;
-     position:absolute;
-     left:20px;
+
+.recordBox {
+    margin-top: 20px;
 }
-.chatRecordList ul li p{
-    padding:0 0 10px 0;
-    font-size:14px;
+
+.recordBox nav {
+    height: 40px;
+    background: rgba(227, 234, 236, 1);
+    position: relative;
 }
-.chatRecordList ul li span{
-    font-size:12px;
-    color:rgba(144,144,144,1);
+
+.recordBox nav li {
+    list-style: none;
+    width: 100px;
+    text-align: center;
+    background: rgba(255, 255, 255, 1);
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    font-size: 15px;
+    height: 30px;
+    line-height: 30px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.recordBox ul li {
+    padding: 10px 5px 10px 60px;
+    border-bottom: 1px dashed rgba(200, 200, 200, 1);
+    list-style: none;
+    display: relative;
+}
+
+.recordBox ul li:hover {
+    background-color: rgba(240, 240, 240, 1);
+}
+
+.recordBox ul li img {
+    border: 1px solid rgba(180, 180, 180, 1);
+    border-radius: 3px;
+    position: absolute;
+    left: 20px;
+}
+
+.recordBox ul li p {
+    padding: 0 0 10px 0;
+    font-size: 14px;
+}
+
+.recordBox ul li span {
+    font-size: 12px;
+    color: rgba(144, 144, 144, 1);
+}
+
+.recordBox ul li button {
+    position: absolute;
+    border: 0;
+    background-color: transparent;
+    outline: none;
+    right: 30px;
+    display: none;
+}
+
+.recordBox ul li:hover button {
+    display: inline-block;
+
+}
+
+.recordBox ul li:hover button:hover {
+    text-decoration: underline;
+    color: rgba(0, 0, 255, 1);
 }

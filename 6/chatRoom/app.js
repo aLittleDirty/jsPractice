@@ -1,68 +1,78 @@
-let chatArea = document.getElementsByClassName('chatArea')[0];
-let images = chatArea.getElementsByTagName('img');
-let nameInput = chatArea.getElementsByTagName('input')[0];
-let textarea = chatArea.getElementsByTagName('textarea')[0];
-let sharingBtn = chatArea.getElementsByTagName('button')[0];
-let tips=chatArea.getElementsByClassName('remainWord')[0];
+let getNode = {
+    byTagName: function (tagName, parent) {
+        return (parent || document).getElementsByTagName(tagName);
+    },
+    byId: function (id) {
+        return document.getElementById(id);
+    },
+    byClassName(className, parent) {
+        return (parent || document).getElementsByClassName(className);
+    }
+}
 
-let chatRecordList=document.getElementsByClassName('chatRecordList')[0];
-let chatUl = chatRecordList.getElementsByTagName('ul')[0];
-let deleteBtns=chatRecordList.getElementsByTagName('button');
-let currentImageSrc="http://www.fgm.cc/learn/lesson6/img/face1.gif";
-let remainNumber=140;
+let chatArea = getNode.byClassName('chatArea')[0];
+let images = getNode.byTagName('img', chatArea);
+let nameInput = getNode.byTagName('input', chatArea)[0];
+let textarea = getNode.byTagName('textarea', chatArea)[0];
+let broadcastBtn = getNode.byTagName('button', chatArea)[0];
+let tips = getNode.byClassName('remainWord', chatArea)[0];
+
+let recordBox = getNode.byClassName('recordBox')[0];
+let chatRecord = getNode.byTagName('ul', recordBox)[0];
+let currentImageSrc = images[0].src;
+// let remainNumber=140;
+
 /* 目前欠缺功能：
 textarea输入时的字数提示
 插入新li的动画设置
-li的删除功能
-*/ 
+*/
 
-// 将新节点插入到ul的第一个位置
-sharingBtn.onclick = function () {
-    let newElement = createNode(currentImageSrc,getChatMessage(nameInput, textarea),getCurrentTime());
-    let targetElement = chatUl.firstElementChild;
-    chatUl.insertBefore(newElement, targetElement);
+// 广播按钮监听事件
+broadcastBtn.onclick = function () {
+    let newElement = createNode(currentImageSrc, getChatMessage(nameInput, textarea), getCurrentTime());
+    let targetElement = chatRecord.firstElementChild;
+    chatRecord.insertBefore(newElement, targetElement);
+    textarea.value = "";
 }
+
+// 头像监听事件
+for (let i = 0; i < images.length; i++) {
+
+    images[i].onclick = function () {
+        for (let j = 0; j < images.length; j++) {
+            images[j].className = "";
+        }
+        currentImageSrc = this.src;
+        this.className = "active";
+    }
+}
+// 初始化在HTML中添加的删除按钮
+function deleteNode(){
+    let deleteButtons = getNode.byTagName('button',recordBox);
+    for(let i = 0;i < deleteButtons.length ; i++ ){
+
+        deleteButtons[i].onclick = function () {
+            chatRecord.removeChild(this.parentNode);
+        }
+    }
+}
+deleteNode();
+
 // 创造新的节点
-function createNode(image,message,time){
-    // 判断是否存在message
-    if(!message){
+function createNode(image, message, time) {
+    if (!message) {
         return;
     }
-    let li=document.createElement('li');
-    li.innerHTML="<img src="+image+"><p class='chatContent'>"+message+"</p><span>"+time+"</span><button>删除</button>";
-    return li;   
-}
-// 获取当前的时间
-function getCurrentTime(){
-    let date = new Date();
-    let month=date.getMonth()+1;
-    let day=date.getDate();
-    let hour=date.getHours();
-    let minute=date.getMinutes();
-    return month+"月"+day+"日"+" "+hour+":"+minute;
-};
-// 初始化，选择当前的图片
-function getCurrentImage(){
-    // 初始化缓存图片
-    let cacheImage=images[0];
-    cacheImage.className="active";
-    for(let i=0;i<images.length;i++){
-
-// 每次点击时，保存当前图片的链接，将当前图片设置为缓存图片(旧图片)
-
-        images[i].onclick=function(){
-            cacheImage.className="";
-            currentImageSrc=this.src;
-            this.className="active";
-            cacheImage=this;  
-
-        }
-
+    let newLi = document.createElement('li');
+    newLi.innerHTML = "<img src=" + image + "><p class='chatContent'>" + message + "</p><span>" + time + "</span><button>删除</button>";
+    let newButton = newLi.getElementsByTagName('button')[0];
+    newButton.onclick = function () {
+        chatRecord.removeChild(this.parentNode);
     }
+    return newLi;
 }
-getCurrentImage();
 
-// 组合姓名框和内容框信息
+// 组合姓名框和内容框的信息
 function getChatMessage(nameElement, contentElement) {
     let nameMessage = nameElement.value;
     let contentMessage = contentElement.value;
@@ -79,11 +89,21 @@ function getChatMessage(nameElement, contentElement) {
     }
     return nameMessage + ":" + contentMessage;
 }
+
+// 获取当前的时间
+function getCurrentTime() {
+    let date = new Date();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    let hour = date.getHours();
+    let minute = date.getMinutes();
+    return month + "月" + day + "日" + " " + hour + ":" + minute;
+};
 // 剩余字数提示
 // 没支持中文输入。
 // 没支持字数回删操作
 // textarea.onkeydown=function(event){
-//    let e=event||window.event;
+//    let e=event||document.event;
 //     if(e.keycode===8){
 //         console.log('aaa');
 //         remainNumber++;
@@ -93,6 +113,3 @@ function getChatMessage(nameElement, contentElement) {
 //     tips.innerHTML=remainNumber;
 // }
 // 删除按钮
-
-    
-
