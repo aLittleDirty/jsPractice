@@ -1,71 +1,80 @@
-let container = document.getElementById("carouselBox");
-let imagesBox = container.getElementsByTagName('ul')[0];
-let imageLists = imagesBox.getElementsByTagName('li');
-let indexBox = container.getElementsByTagName('ol')[0];
-let containerTop = container.offsetTop;
-let eachImageHeight = imagesBox.children[0].offsetHeight;
+let frame = document.getElementById("carouselBox");
+let imagesBox = frame.getElementsByTagName('ul')[0];
+let images = imagesBox.getElementsByTagName('li');
+let indexBox = frame.getElementsByTagName('ol')[0];
+let timer = null;
+let autoPlay = null;
+let isUpper = false;
+let currentIndex = 0;
 
-for (let i = 0; i < imageLists.length; i++) {
+// 为每张图片添加下标
+for (let i = 0; i < images.length; i++) {
+    let imgIndex = document.createElement('li');
+    imgIndex.innerText = i + 1;
+    indexBox.appendChild(imgIndex);
+}
 
-    // 为每张图片添加下标，并狗日下标添加onmouseover事件
-    let indexLi = document.createElement('li');
-    indexLi.innerText = i + 1;
-    indexBox.appendChild(indexLi);
-
-
-    indexLi.onmouseover = function () {
-        // 清空所有下标的样式
-        for (let j = 0; j < indexBox.children.length; j++) {
-            indexBox.children[j].className = "";
+// 初始化下标的onmouseover事件
+let indexLists = indexBox.getElementsByTagName('li');
+for (let i = 0; i < indexLists.length; i++) {
+    indexLists[i].index = i;
+    indexLists[i].onmouseover = function () {
+        for (let j = 0; j < indexLists.length; j++) {
+            indexLists[j].className = "";
         }
         this.className = "active";
-
-        let targetPosition = containerTop-(i*eachImageHeight);
-        animatePlay(imagesBox, targetPosition);
+        currentIndex = this.index;
+        toggle();
     }
 }
-// 自动轮播
+//获得下一张图片的位置，初始化自动播放
+next();
+autoPlay = setInterval (toggle,2000);
 
-// function autoplay(element,index){
-    // let index=0;
-//     while(index<imageLists.length){
-//         index++;
-//         let targetPosition=containerTop-(index*eachImageHeight);
-//         animatePlay(element,targetPosition);
-//       // 回到第一张图片，再次轮播
-//         if(index==imageLists.length-1){
-//             element.style.top=0+"px";
-//             index=0;
-//         }  
-//     }
-// }
-// autoplay(imagesBox,0);
+// 初始化鼠标移入移出播放框事件
+frame.onmouseover = function (){
+    clearInterval(autoPlay);
+}
 
-function animatePlay(element, targetPosition) {
+frame.onmouseout = function () {
+    autoPlay=setInterval(toggle,2000);
+}
 
-    let step = 10;
-    let current = 0;
-    play = setInterval(()=>{
+function toggle() { 
+    for(let i = 0;i < indexLists.length;i++ ){
+        indexLists[i].className = "";
+    }
+    indexLists[currentIndex].className = "active";
+    let targetPosition = (-currentIndex) * images[0].offsetHeight;
+    startMove(targetPosition);
+    next();
+}
 
-        current = element.style.top;
-        console.log(element.offsetTop);
-        console.log(element.style.top);
-        console.log(current);
-        step=current>targetPosition?-step:step;
+function next() {
+    if (currentIndex == indexLists.length - 1) {
+        isUpper = true;
+    }
+    if (currentIndex == 0) {
+        isUpper = false;
+    }
+    isUpper ? currentIndex-- : currentIndex++;
+}
 
-        console.log("targetPosition:"+targetPosition);
-        console.log("current:"+current);
-        console.log("step:"+step);
+// 防抖函数
+function startMove(targetPosition) {
+    clearInterval(timer);
+    timer = setInterval(() => {
+        doMove(targetPosition);
+    }, 30);
+}
 
-        current+=step;
-        if(Math.abs(current-targetPosition)>Math.abs(step)){
-            element.style.top=current+"px";
-        }else{
-            clearInterval(play);
-            element.style.top=targetPosition+"px";
-        }
-
-        
-    }, 300)
-
+// 执行函数
+function doMove(targetPosition) {
+    let eachStep = (targetPosition - imagesBox.offsetTop) / 5;
+    eachStep = (eachStep > 0) ? Math.ceil(eachStep) : Math.floor(eachStep);
+    if (imagesBox.offsetTop == targetPosition) {
+        clearInterval(timer);
+    } else {
+        imagesBox.style.top = imagesBox.offsetTop + eachStep + "px";
+    }
 }

@@ -11,14 +11,14 @@ body{
     height:170px;
     position:relative;
     border-radius:6px;
-    /* overflow: hidden; */
+    overflow: hidden;
 }
 #carouselBox ul{
+    position:absolute;
     width:490px;
     height:850px;
-    /*   消除inline-block产生的空隙   */
+    /*   消除html中，li之间因空格符产生的空隙   */
     font-size:0;
-    position:absolute;
 }
 #carouselBox ul li{
     height: 170px;
