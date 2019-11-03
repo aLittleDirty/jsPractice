@@ -85,7 +85,8 @@ body {
     height: 30px;
     background-color: transparent;
     border: 0;
-    background: url("http://www.fgm.cc/learn/lesson6/img/btn.png")
+    background: url("http://www.fgm.cc/learn/lesson6/img/btn.png");
+    outline:none;
 }
 
 .chatArea button:hover {

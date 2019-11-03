@@ -20,19 +20,19 @@ let tips = getNode.byClassName('remainWord', chatArea)[0];
 let recordBox = getNode.byClassName('recordBox')[0];
 let chatRecord = getNode.byTagName('ul', recordBox)[0];
 let currentImageSrc = images[0].src;
-// let remainNumber=140;
 
 /* 目前欠缺功能：
-textarea输入时的字数提示
-插入新li的动画设置
+textarea输入回删时的字数提示
+插入li的动画设置
 */
 
-// 广播按钮监听事件
+// 广播按钮：添加新节点
 broadcastBtn.onclick = function () {
     let newElement = createNode(currentImageSrc, getChatMessage(nameInput, textarea), getCurrentTime());
     let targetElement = chatRecord.firstElementChild;
     chatRecord.insertBefore(newElement, targetElement);
     textarea.value = "";
+
 }
 
 // 头像监听事件
@@ -46,17 +46,31 @@ for (let i = 0; i < images.length; i++) {
         this.className = "active";
     }
 }
-// 初始化在HTML中添加的删除按钮
-function deleteNode(){
-    let deleteButtons = getNode.byTagName('button',recordBox);
-    for(let i = 0;i < deleteButtons.length ; i++ ){
+// 给HTML中的删除按钮添加删除功能
+function deleteNode() {
+    let buttons = getNode.byTagName('button', recordBox);
+    for (let i = 0; i < buttons.length; i++) {
 
-        deleteButtons[i].onclick = function () {
-            chatRecord.removeChild(this.parentNode);
-        }
+        initDelete(buttons[i]);
     }
 }
 deleteNode();
+
+function initDelete(child) {
+    child.onclick = function () {
+        let _this = this;
+        let opacity = 1;
+        disappear = setInterval(() => {
+            opacity -= 0.2;
+            _this.parentNode.style.opacity = opacity;
+            if (opacity <= 0) {
+                clearInterval(disappear);
+                chatRecord.removeChild(_this.parentNode);
+            }
+        }, 100);
+
+    }
+}
 
 // 创造新的节点
 function createNode(image, message, time) {
@@ -66,9 +80,7 @@ function createNode(image, message, time) {
     let newLi = document.createElement('li');
     newLi.innerHTML = "<img src=" + image + "><p class='chatContent'>" + message + "</p><span>" + time + "</span><button>删除</button>";
     let newButton = newLi.getElementsByTagName('button')[0];
-    newButton.onclick = function () {
-        chatRecord.removeChild(this.parentNode);
-    }
+    initDelete(newButton);
     return newLi;
 }
 
@@ -87,7 +99,7 @@ function getChatMessage(nameElement, contentElement) {
         alert('请输入内容');
         return false;
     }
-    return nameMessage + ":" + contentMessage;
+    return nameMessage + ": " + contentMessage;
 }
 
 // 获取当前的时间
@@ -99,17 +111,3 @@ function getCurrentTime() {
     let minute = date.getMinutes();
     return month + "月" + day + "日" + " " + hour + ":" + minute;
 };
-// 剩余字数提示
-// 没支持中文输入。
-// 没支持字数回删操作
-// textarea.onkeydown=function(event){
-//    let e=event||document.event;
-//     if(e.keycode===8){
-//         console.log('aaa');
-//         remainNumber++;
-//     }else{
-//         remainNumber--;
-//     }
-//     tips.innerHTML=remainNumber;
-// }
-// 删除按钮
