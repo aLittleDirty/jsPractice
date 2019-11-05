@@ -1,0 +1,33 @@
+label {
+    display: inline-block;
+    margin: 5px;
+}
+
+input {
+    border: 2px solid rgba(144, 144, 144, 1);
+    width: 80px;
+    padding: 5px;
+    margin: 5px;
+}
+
+table {
+    border: 1px solid rgba(200, 200, 200, 1);
+    padding: 0 5px 5px 0;
+    background-color: rgba(230,230,230, 1);
+}
+
+td {
+    display: inline-block;
+    border: 1px solid rgba(200, 200, 200, 1);
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+    margin: 5px 0 0 5px;
+}
+
+p div{
+    display:inline-block;
+    width:20px;
+    height:20px;
+}
