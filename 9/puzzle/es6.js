@@ -70,9 +70,8 @@ class Puzzle {
         }
         for (let i = 0; i < pieces.length; i++) {
             pieces[i].style.position = "absolute";
-            pieces[i].addEventListener('mousedown', this._start, false);
-            pieces[i].addEventListener('mousemove', this._move, false);
-            pieces[i].addEventListener('mouseup', this._stop, false);
+            pieces[i].addEventListener('mousedown', this._start);
+            pieces[i].addEventListener('mouseup', this._stop);
         }
     }
     initListener() {
@@ -84,14 +83,40 @@ class Puzzle {
     // 这些mouse事件,放在这里面不能使用事件委托,应该是作用域的原因
     start(event = window.event) {
         let target = event.target.parentNode;
-        this.disX = event.clientX - target.offsetTop;
-        this.disY = event.clientY - target.offsetLeft;
+        this.disX = event.clientX - target.offsetLeft;
+        this.disY = event.clientY - target.offsetTop;
         target.style.zIndex = this.zIndex++;
-        // move的时候,target发生改变
-        // 出问题了
+        target.addEventListener('mousemove', this._move, false);
+        console.log('start');
+
+       
     }
     move(event = window.event) {
         let target = event.target.parentNode;
+        // 对移动中的拼图碎片设置限定范围不超过大拼图
+        this.setLimit(event,target);
+
+        // 获取离移动中的拼图的最近的拼图
+        this.nearPiece = this.findNear(target);
+
+        // 高亮显示 
+        this.hightLight(this.nearPiece);
+        // target.addEventListener('mouseup', this._stop, false);
+
+        console.log('move');
+    }
+
+
+    hightLight(nearPiece) {
+        for (let i = 0; i < pieces.length; i++) {
+            pieces[i].className = "";
+        }
+      
+        nearPiece.className = "hightLight";
+    }
+
+
+    setLimit(event = window.event ,target){
         target.style.top = event.clientY - this.disY + "px";
         target.style.left = event.clientX - this.disX + "px";
         let maxTop = puzzleBox.clientHeight - target.offsetHeight;
@@ -109,38 +134,39 @@ class Puzzle {
         if (target.offsetLeft < 0) {
             target.style.left = 0;
         }
-        for (let i = 0; i < pieces.length; i++) {
-            pieces[i].className = "";
-        }
-        this.nearPiece = this.findNear(target);
-        this.nearPiece.className = "hightLight";
-    }
 
-    stop(event = window.event, callback) {
+    }
+        // 获取最近的拼图:函数
+
+    stop(event = window.event) {
         let target = event.target.parentNode;
         // 1.移动和鼠标抬起的监听事件结束
+        
         target.removeEventListener('mousemove', this._move, false);
         target.removeEventListener('mouseup', this._stop, false);
+        if(!this.nearPiece){
+            return;
+        }
 
         this.swap(target, this.nearPiece);
-
         // 3.检查是否结束游戏
         if (this.finish()) {
             this.callback();
             this.createMask();
         }
+        console.log('stop');
 
     }
     finish() {
         let tempArray = [];
-        let win = false;
+        let win = true;
         for (let i = 0; i < pieces.length; i++) {
             let img = get.byTagName('img', pieces[i])[0];
             tempArray.push(img.src.match(/(\d+)\./)[1]);
         }
         for (let i = 0; i < tempArray.length; i++) {
             if (i !== tempArray[i - 1]) {
-                win = true;
+                win = false;
                 break;
             }
         }
@@ -153,9 +179,6 @@ class Puzzle {
         let minDistance = Number.MAX_VALUE;
         let nearest = null;
         for (let i = 0; i < pieces.length; i++) {
-            if (pieces[i] === target) {
-                continue;
-            }
             if (this.isOverLap(target, pieces[i])) {
                 tempArray.push(pieces[i]);
             }
@@ -188,7 +211,7 @@ class Puzzle {
     getDistance(obj1, obj2) {
         let x1 = obj1.offsetLeft + obj1.offsetWidth / 2;
         let y1 = obj1.offsetTop + obj1.offsetHeight / 2;
-        let x2 = obj2.offsetLeft + obj2.offsetHeight / 2;
+        let x2 = obj2.offsetLeft + obj2.offsetWidth / 2;
         let y2 = obj2.offsetTop + obj2.offsetHeight / 2;
         return this.getSqrt(x2 - x1, y2 - y1);
     }
@@ -207,11 +230,10 @@ class Puzzle {
         }, 30);
     }
     doMove(target, position) {
-        let eachStepX = target.offsetLeft - position.left;
-        let eachStepY = target.offsetTop - position.top;
-        eachStepX = eachStepX > 0 ? Math.floor(eachStepX) : Math.ceil(eachStepX);
-        eachStepY = eachStepY > 0 ? Math.floor(eachStepY) : Math.ceil(eachStepY);
-
+        let eachStepX = (position.left-target.offsetLeft )/5;
+        let eachStepY = (position.top- target.offsetTop )/5;  
+        eachStepX = eachStepX > 0 ? Math.ceil(eachStepX) : Math.floor(eachStepX);
+        eachStepY = eachStepY > 0 ? Math.ceil(eachStepY) : Math.floor(eachStepY);
         if (target.offsetTop == position.top && target.offsetLeft == position.left) {
             clearInterval(target.timer);
         } else {
