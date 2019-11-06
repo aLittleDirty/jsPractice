@@ -9,26 +9,16 @@ let get = {
         return parent.getElementsByClassName(className);
     }
 }
-/*
-在类中定义:
-mousedown:获得距离,添加move事件
-mousemove:获得距移动元素最近的元素,高亮处理;边界条件:不可超过puzzleBox
-mouseup:交换两个元素的位置和index值,每次交换完都需要检查一下indexes的顺序,如果恢复,则完成游戏
-*/
-
-/*
-1.为每个li添加监听事件
-2.为能在边界条件内移动,不溢出
-3.获两个最近的元素
-4.交换元素位置和indexes值
-*/
 
 class Puzzle {
-    constructor() {
+    constructor(callback) {
         this.posData = [];
         this.disX = 0;
         this.disY = 0;
+        this.zIndex = 1;
         this.initListener();
+        this.indexes = [];
+        this.callback = callback;
     }
     order() {
         let indexData = [];
@@ -68,18 +58,20 @@ class Puzzle {
     }
     // 设置每张图片都可以移动
     initPuzzles() {
-        for (let i = 0; i < images.length; i++) {
-            images[i].style.top = images[i].offsetTop + "px";
-            images[i].style.left = images[i].offsetLeft + "px";
+        for (let i = 0; i < pieces.length; i++) {
+            pieces[i].style.top = pieces[i].offsetTop + "px";
+            pieces[i].style.left = pieces[i].offsetLeft + "px";
             this.posData.push({
-                "left": images[i].offsetLeft,
-                "top": images[i].offsetTop
+                "left": pieces[i].offsetLeft,
+                "top": pieces[i].offsetTop
             });
+            // 每个元素设置index值
+            pieces[i].index = this.indexes[i];
         }
-        for (let i = 0; i < images.length; i++) {
-            images[i].style.position = "absolute";
-            images[i].addEventListener('mousedown', this._start, false);
-            images[i].addEventListener('mouseup', this._stop, false);
+        for (let i = 0; i < pieces.length; i++) {
+            pieces[i].style.position = "absolute";
+            pieces[i].addEventListener('mousedown', this._start, false);
+            pieces[i].addEventListener('mouseup', this._stop, false);
         }
     }
     initListener() {
@@ -87,32 +79,146 @@ class Puzzle {
         this._move = this.move.bind(this);
         this._stop = this.stop.bind(this);
     }
+
+    // 这些mouse事件,放在这里面不能使用事件委托,应该是作用域的原因
     start(event = window.event) {
         let target = event.target.parentNode;
         this.disX = event.clientX - target.offsetTop;
         this.disY = event.clientY - target.offsetLeft;
-        target.addEventListener('mousemove', this._move, false);
+        target.style.zIndex = this.zIndex++;
+        // move的时候,target发生改变
+        // 出问题了
+        target.addEventListener('mousemove', this._move,false);
     }
     move(event = window.event) {
         let target = event.target.parentNode;
         target.style.top = event.clientY - this.disY + "px";
         target.style.left = event.clientX - this.disX + "px";
-    }
-    stop(){
-        this.swap();
-        for(let i = 0; i < 15; i++){
-           if(this.indexes[i] !==(i+1))  {
-               break;
-           } 
-           if(this.indexes[i] === 15){
-               alert('win!');
-           }
+        let maxTop = puzzleBox.clientHeight - target.offsetHeight;
+        let maxLeft = puzzleBox.clientWidth - target.offsetWidth;
+        if(target.offsetTop > maxTop) {
+            target.style.top = maxTop + "px";
         }
+        if(target.offsetTop < 0){
+            target.style.top = 0;
+        }
+
+        if(target.offsetLeft > maxLeft) {
+            target.style.left = maxLeft + "px";
+        }
+        if(target.offsetLeft < 0 ) {
+            target.style.left = 0 ;
+        }
+        for(let i =0;i < pieces.length;i++){
+            pieces[i].className = "";
+        }
+        this.nearPiece = this.findNear(target);
+        this.nearPiece.className = "hightLight";
     }
-    swap(){
-        // 3.获两个最近的元素
-        // 4.交换元素位置和indexes值
+
+    stop(event = window.event){
+        let target = event.target.parentNode;
+        // 1.移动和鼠标抬起的监听事件结束
+        target.removeEventListener('mousemove', this._move,false);
+        target.removeEventListener('mouseup', this._stop, false);
+
+        this.swap(target,this.nearPiece);
+
+        // 3.检查是否结束游戏
+        if(this.finish()){
+            this.callback();
+            this.createMask();
+        }
         
+    }
+    finish(){
+        let tempArray = [];
+        let win = false;
+        for(let i = 0;i < pieces.length; i++){
+            let img = pieces[i].get.byTagName('img')[0];
+            tempArray.push(img.src.match(/(\d+)\./)[1]);
+        }
+        for(let i = 0;i < this.tempArray.length;i++){
+            if(i !==tempArray[i-1]){
+                win = true;
+                break;
+            }
+        }
+        return win;
+    }
+
+    findNear(target) {
+        // 寻找最近的元素
+        let tempArray = [];
+        let minDistance = Number.MAX_VALUE;
+        let nearest = null;
+        for(let i = 0;i < pieces.length; i++){
+            if(pieces[i] === target){
+                continue;
+            }
+            if(this.isOverLap(target,pieces[i])){
+                tempArray.push(pieces[i]);
+            }
+        }
+            // 遍历数组,计算每个元素与移动元素的中心点的位置返回最小值
+        for(let i = 0; i < tempArray.length;i++){
+            if(this.getDistance(target,tempArray[i]) < minDistance){
+                minDistance = this.getDistance(target,tempArray[i]);
+                nearest = tempArray[i];
+            }
+            
+        }
+        return nearest;
+    }
+    // 判断两个元素是否重叠
+    isOverLap(obj1,obj2){
+        let  L1 = obj1.offsetLeft;
+        let T1 = obj1.offsetTop;
+        let R1 = obj1.offsetLeft + obj1.offsetWidth;
+        let B1 = obj1.offsetTop + obj1.offsetHeight;
+
+        let L2 = obj2.offsetLeft;
+        let T2 = obj2.offsetTop;
+        let R2 = obj2.offsetLeft + obj1.offsetWidth;
+        let B2 = obj2.offsetTop + obj2.offsetHeight;
+
+        return !(T1 > B2 || R1 < L2 || B1 < T2 || L1 > R2);
+    }
+    // 返回两个元素之间的距离
+    getDistance(obj1,obj2){
+        let x1 = obj1.offsetLeft + obj1.offsetWidth/2;
+        let y1 = obj1.offsetTop + obj1.offsetHeight/2;
+        let x2 = obj2.offsetLeft + obj2.offsetHeight/2;
+        let y2 = obj2.offsetTop + obj2.offsetHeight/2;
+        return this.getSqrt(x2-x1,y2-y1);
+    }
+    getSqrt(a,b){
+        return Math.sqrt((a*a)+(b*b));
+    }
+   
+    swap(obj1,obj2){
+        this.startMove(obj1,this.posData[obj2.index]);
+        this.startMove(obj2,this.posData[obj1.index]);  
+    }
+    startMove(target,position){
+        clearInterval(target.timer);
+        target.timer = setInterval(() => {
+            this.doMove(target,position);
+        }, 30);
+    }
+    doMove(target,position){
+        let eachStepX = target.offsetLeft-position.left;
+        let eachStepY = target.offsetTop - position.top;
+        eachStepX = eachStepX>0?Math.floor(eachStepX):Math.ceil(eachStepX);
+        eachStepY = eachStepY>0?Math.floor(eachStepY):Math.ceil(eachStepY);
+
+        if(target.offsetTop == position.top && target.offsetLeft == position.left){
+            clearInterval(target.timer);
+        }else{
+            target.style.left = target.offsetLeft + eachStepX + 'px';
+            target.style.top = target.offsetTop + eachStepY + "px";
+        }
+
     }
 
 }
@@ -121,7 +227,8 @@ class Puzzle {
 let selectedBox = get.byId('selectedBox');
 let selectors = get.byTagName('img', selectedBox);
 let puzzleBox = get.byId('puzzle');
-let images = get.byTagName("li", puzzleBox);
+// pieces是图片碎片
+let pieces = get.byTagName("li", puzzleBox);
 let startButton = get.byTagName('button')[0];
 let puzzleGame = new Puzzle();
 puzzleGame.addOrder(0);

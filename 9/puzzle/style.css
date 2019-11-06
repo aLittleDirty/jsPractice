@@ -40,7 +40,10 @@ button {
     width: 82px;
     height: 190px;
 }
-
+#puzzle li.hightLight{
+    border:2px solid rgba(255, 255, 0, 1);
+    opacity: 0.5;
+}
 #puzzle #mask {
     position: absolute;
     top: 0;
