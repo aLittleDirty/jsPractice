@@ -34,7 +34,7 @@ for (let i = 0; i < options.length; i++) {
 startButton.onclick=function(){
     playGame(true);
     startButton.innerHTML = "重新开始";
-    
+  
 }
 
 function playGame(isReady) {
@@ -59,6 +59,7 @@ function disorder(){
 function addPuzzle() {
     puzzleBox.innerHTML = "";
     puzzleBox.style.background = "url(http://www.fgm.cc/learn/lesson9/img/girl" + imgPath + "/bg.png)  no-repeat";
+    console.log(puzzleBox);
 
     let fragment = document.createDocumentFragment();
     for (let i = 0; i < imageData.length; i++) {
@@ -76,7 +77,6 @@ function addPuzzle() {
 
 function setAbsolutePos() {
     let lists = puzzleBox.getElementsByTagName('li');
-console.log(lists.length);
     for (let i = 0; i < lists.length; i++) {
         lists[i].style.left = lists[i].offsetLeft + "px";
         lists[i].style.top = lists[i].offsetTop + "px";
@@ -97,3 +97,8 @@ function createMask() {
     puzzleBox.appendChild(mask);
 }
 
+/*移动拼图位置,(边界条件:不可移出整个puzzle)
+获取移动中的拼图的最近的元素,高亮处理,图片透明度降低
+释放鼠标时,将其与最近的元素进行交换(交换index值和图片碎片),动画效果
+每次交换完成,都需要检查index值是否全部归位,如果归位,则完成游戏
+*/ 

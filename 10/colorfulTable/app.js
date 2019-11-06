@@ -11,10 +11,11 @@ let get = {
 }
 
 class ColorfulTable {
-    constructor(rows, cols, table = "table") {
+    constructor(rows, cols, table = "table",callBack) {
         this.rows = rows;
         this.cols = cols;
         this.table = get.byTagName(table)[0];
+        this.callBack = callBack;
         this.initTable();
         this.initListener();
     }
@@ -42,7 +43,8 @@ class ColorfulTable {
         let selectedColor = target.style.backgroundColor;
         let selectedValue = target.innerText;
         if (target.tagName.toUpperCase() === "TD") {
-            message.innerHTML = `<p>你选择的区域的数字是:${selectedValue},颜色为:<div style="background-color:${selectedColor};"></div><span>${selectedColor}</span></p>`
+            this.callBack(selectedValue,selectedColor);
+           
         }
     }
 
@@ -76,5 +78,7 @@ let message = get.byTagName('p')[0];
 createBtn.onclick = function () {
     let rows = get.byTagName('input')[0].value;
     let cols = get.byTagName('input')[1].value;
-    new ColorfulTable(rows, cols);
+    new ColorfulTable(rows, cols,undefined,(value,color)=>{
+        message.innerHTML = `<p>你选择的区域的数字是:${value},颜色为:<div style="background-color:${color};"></div><span>${color}</span></p>`
+    });
 }

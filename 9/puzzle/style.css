@@ -12,26 +12,26 @@ button {
     margin: 10px;
 }
 
-#photos img {
+#selectedBox img {
     border-radius: 5px;
     opacity: 0.7
 }
 
-#photos img:hover {
+#selectedBox img:hover {
     opacity: 1;
 }
 
-#photos img.selected {
+#selectedBox img.selected {
     border: 2px solid rgba(255, 255, 0, 1);
     opacity: 1;
 }
 
 #puzzle {
     width: 410px;
+    height: 570px;
     font-size: 0;
     margin: 0 auto;
     position: relative;
-
 }
 
 #puzzle li {
