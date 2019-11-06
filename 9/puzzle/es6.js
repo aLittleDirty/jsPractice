@@ -32,12 +32,12 @@ class Puzzle {
             return Math.random() > 0.5 ? 1 : -1;
         })
     }
-    addRandom(choice){
+    addRandom(choice) {
         this.indexes = this.disorder();
         this.addPuzzles(choice);
         this.initPuzzles();
     }
-    addOrder(choice){
+    addOrder(choice) {
         this.indexes = this.order();
         this.addPuzzles(choice);
         this.createMask();
@@ -71,6 +71,7 @@ class Puzzle {
         for (let i = 0; i < pieces.length; i++) {
             pieces[i].style.position = "absolute";
             pieces[i].addEventListener('mousedown', this._start, false);
+            pieces[i].addEventListener('mousemove', this._move, false);
             pieces[i].addEventListener('mouseup', this._stop, false);
         }
     }
@@ -88,7 +89,6 @@ class Puzzle {
         target.style.zIndex = this.zIndex++;
         // move的时候,target发生改变
         // 出问题了
-        target.addEventListener('mousemove', this._move,false);
     }
     move(event = window.event) {
         let target = event.target.parentNode;
@@ -96,50 +96,50 @@ class Puzzle {
         target.style.left = event.clientX - this.disX + "px";
         let maxTop = puzzleBox.clientHeight - target.offsetHeight;
         let maxLeft = puzzleBox.clientWidth - target.offsetWidth;
-        if(target.offsetTop > maxTop) {
+        if (target.offsetTop > maxTop) {
             target.style.top = maxTop + "px";
         }
-        if(target.offsetTop < 0){
+        if (target.offsetTop < 0) {
             target.style.top = 0;
         }
 
-        if(target.offsetLeft > maxLeft) {
+        if (target.offsetLeft > maxLeft) {
             target.style.left = maxLeft + "px";
         }
-        if(target.offsetLeft < 0 ) {
-            target.style.left = 0 ;
+        if (target.offsetLeft < 0) {
+            target.style.left = 0;
         }
-        for(let i =0;i < pieces.length;i++){
+        for (let i = 0; i < pieces.length; i++) {
             pieces[i].className = "";
         }
         this.nearPiece = this.findNear(target);
         this.nearPiece.className = "hightLight";
     }
 
-    stop(event = window.event){
+    stop(event = window.event, callback) {
         let target = event.target.parentNode;
         // 1.移动和鼠标抬起的监听事件结束
-        target.removeEventListener('mousemove', this._move,false);
+        target.removeEventListener('mousemove', this._move, false);
         target.removeEventListener('mouseup', this._stop, false);
 
-        this.swap(target,this.nearPiece);
+        this.swap(target, this.nearPiece);
 
         // 3.检查是否结束游戏
-        if(this.finish()){
+        if (this.finish()) {
             this.callback();
             this.createMask();
         }
-        
+
     }
-    finish(){
+    finish() {
         let tempArray = [];
         let win = false;
-        for(let i = 0;i < pieces.length; i++){
-            let img = pieces[i].get.byTagName('img')[0];
+        for (let i = 0; i < pieces.length; i++) {
+            let img = get.byTagName('img', pieces[i])[0];
             tempArray.push(img.src.match(/(\d+)\./)[1]);
         }
-        for(let i = 0;i < this.tempArray.length;i++){
-            if(i !==tempArray[i-1]){
+        for (let i = 0; i < tempArray.length; i++) {
+            if (i !== tempArray[i - 1]) {
                 win = true;
                 break;
             }
@@ -152,27 +152,27 @@ class Puzzle {
         let tempArray = [];
         let minDistance = Number.MAX_VALUE;
         let nearest = null;
-        for(let i = 0;i < pieces.length; i++){
-            if(pieces[i] === target){
+        for (let i = 0; i < pieces.length; i++) {
+            if (pieces[i] === target) {
                 continue;
             }
-            if(this.isOverLap(target,pieces[i])){
+            if (this.isOverLap(target, pieces[i])) {
                 tempArray.push(pieces[i]);
             }
         }
-            // 遍历数组,计算每个元素与移动元素的中心点的位置返回最小值
-        for(let i = 0; i < tempArray.length;i++){
-            if(this.getDistance(target,tempArray[i]) < minDistance){
-                minDistance = this.getDistance(target,tempArray[i]);
+        // 遍历数组,计算每个元素与移动元素的中心点的位置返回最小值
+        for (let i = 0; i < tempArray.length; i++) {
+            if (this.getDistance(target, tempArray[i]) < minDistance) {
+                minDistance = this.getDistance(target, tempArray[i]);
                 nearest = tempArray[i];
             }
-            
+
         }
         return nearest;
     }
     // 判断两个元素是否重叠
-    isOverLap(obj1,obj2){
-        let  L1 = obj1.offsetLeft;
+    isOverLap(obj1, obj2) {
+        let L1 = obj1.offsetLeft;
         let T1 = obj1.offsetTop;
         let R1 = obj1.offsetLeft + obj1.offsetWidth;
         let B1 = obj1.offsetTop + obj1.offsetHeight;
@@ -185,36 +185,36 @@ class Puzzle {
         return !(T1 > B2 || R1 < L2 || B1 < T2 || L1 > R2);
     }
     // 返回两个元素之间的距离
-    getDistance(obj1,obj2){
-        let x1 = obj1.offsetLeft + obj1.offsetWidth/2;
-        let y1 = obj1.offsetTop + obj1.offsetHeight/2;
-        let x2 = obj2.offsetLeft + obj2.offsetHeight/2;
-        let y2 = obj2.offsetTop + obj2.offsetHeight/2;
-        return this.getSqrt(x2-x1,y2-y1);
+    getDistance(obj1, obj2) {
+        let x1 = obj1.offsetLeft + obj1.offsetWidth / 2;
+        let y1 = obj1.offsetTop + obj1.offsetHeight / 2;
+        let x2 = obj2.offsetLeft + obj2.offsetHeight / 2;
+        let y2 = obj2.offsetTop + obj2.offsetHeight / 2;
+        return this.getSqrt(x2 - x1, y2 - y1);
     }
-    getSqrt(a,b){
-        return Math.sqrt((a*a)+(b*b));
+    getSqrt(a, b) {
+        return Math.sqrt((a * a) + (b * b));
     }
-   
-    swap(obj1,obj2){
-        this.startMove(obj1,this.posData[obj2.index]);
-        this.startMove(obj2,this.posData[obj1.index]);  
+
+    swap(obj1, obj2) {
+        this.startMove(obj1, this.posData[obj2.index]);
+        this.startMove(obj2, this.posData[obj1.index]);
     }
-    startMove(target,position){
+    startMove(target, position) {
         clearInterval(target.timer);
         target.timer = setInterval(() => {
-            this.doMove(target,position);
+            this.doMove(target, position);
         }, 30);
     }
-    doMove(target,position){
-        let eachStepX = target.offsetLeft-position.left;
+    doMove(target, position) {
+        let eachStepX = target.offsetLeft - position.left;
         let eachStepY = target.offsetTop - position.top;
-        eachStepX = eachStepX>0?Math.floor(eachStepX):Math.ceil(eachStepX);
-        eachStepY = eachStepY>0?Math.floor(eachStepY):Math.ceil(eachStepY);
+        eachStepX = eachStepX > 0 ? Math.floor(eachStepX) : Math.ceil(eachStepX);
+        eachStepY = eachStepY > 0 ? Math.floor(eachStepY) : Math.ceil(eachStepY);
 
-        if(target.offsetTop == position.top && target.offsetLeft == position.left){
+        if (target.offsetTop == position.top && target.offsetLeft == position.left) {
             clearInterval(target.timer);
-        }else{
+        } else {
             target.style.left = target.offsetLeft + eachStepX + 'px';
             target.style.top = target.offsetTop + eachStepY + "px";
         }
@@ -230,7 +230,7 @@ let puzzleBox = get.byId('puzzle');
 // pieces是图片碎片
 let pieces = get.byTagName("li", puzzleBox);
 let startButton = get.byTagName('button')[0];
-let puzzleGame = new Puzzle();
+let puzzleGame = new Puzzle(win);
 puzzleGame.addOrder(0);
 let choice = 0;
 for (let i = 0; i < selectors.length; i++) {
@@ -252,6 +252,10 @@ startButton.onclick = function () {
     this.innerHTML = "重新开始";
 }
 
-function playGame(choice,isStart = true) {
-    isStart?puzzleGame.addRandom(choice):puzzleGame.addOrder(choice);
+function playGame(choice, isStart = true) {
+    isStart ? puzzleGame.addRandom(choice) : puzzleGame.addOrder(choice);
+}
+
+function win() {
+    alert('you win!');
 }
