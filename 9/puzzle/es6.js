@@ -65,13 +65,12 @@ class Puzzle {
                 "left": pieces[i].offsetLeft,
                 "top": pieces[i].offsetTop
             });
-            // 每个元素设置index值
-            pieces[i].index = this.indexes[i];
+            // 每个元素设置index值,和posData中的值形成映射
+            pieces[i].index = i;
         }
         for (let i = 0; i < pieces.length; i++) {
             pieces[i].style.position = "absolute";
             pieces[i].addEventListener('mousedown', this._start);
-            pieces[i].addEventListener('mouseup', this._stop);
         }
     }
     initListener() {
@@ -86,10 +85,13 @@ class Puzzle {
         this.disX = event.clientX - target.offsetLeft;
         this.disY = event.clientY - target.offsetTop;
         target.style.zIndex = this.zIndex++;
-        target.addEventListener('mousemove', this._move, false);
-        console.log('start');
+        target.addEventListener('mousemove', this._move);
+        target.addEventListener('mouseup', this._stop);
+        event.preventDefault && event.preventDefault();
+        target.setCapture && target.setCapture();
+        // console.log('start');
 
-       
+
     }
     move(event = window.event) {
         let target = event.target.parentNode;
@@ -98,12 +100,24 @@ class Puzzle {
 
         // 获取离移动中的拼图的最近的拼图
         this.nearPiece = this.findNear(target);
+    
 
         // 高亮显示 
         this.hightLight(this.nearPiece);
-        // target.addEventListener('mouseup', this._stop, false);
+        event.preventDefault && event.preventDefault();
+    }
 
-        console.log('move');
+    stop(event = window.event) {
+        let target = event.target.parentNode;        
+        target.removeEventListener('mousemove', this._move, false);
+        target.removeEventListener('mouseup', this._stop, false);
+        target.releaseCapture && target.releaseCapture();
+        if(!this.nearPiece){
+            return;
+        }
+        this.swap(target,this.nearPiece);
+        this.nearPiece.className = "";
+        
     }
 
 
@@ -111,7 +125,6 @@ class Puzzle {
         for (let i = 0; i < pieces.length; i++) {
             pieces[i].className = "";
         }
-      
         nearPiece.className = "hightLight";
     }
 
@@ -136,36 +149,14 @@ class Puzzle {
         }
 
     }
-        // 获取最近的拼图:函数
 
-    stop(event = window.event) {
-        let target = event.target.parentNode;
-        // 1.移动和鼠标抬起的监听事件结束
-        
-        target.removeEventListener('mousemove', this._move, false);
-        target.removeEventListener('mouseup', this._stop, false);
-        if(!this.nearPiece){
-            return;
-        }
-
-        this.swap(target, this.nearPiece);
-        // 3.检查是否结束游戏
-        if (this.finish()) {
-            this.callback();
-            this.createMask();
-        }
-        console.log('stop');
-
-    }
+   
     finish() {
-        let tempArray = [];
         let win = true;
-        for (let i = 0; i < pieces.length; i++) {
-            let img = get.byTagName('img', pieces[i])[0];
-            tempArray.push(img.src.match(/(\d+)\./)[1]);
-        }
-        for (let i = 0; i < tempArray.length; i++) {
-            if (i !== tempArray[i - 1]) {
+       
+        for (let i = 0; i < this.indexes.length; i++) {
+            let count = this.indexes[i]-1;
+            if (i !== count) {
                 win = false;
                 break;
             }
@@ -179,17 +170,21 @@ class Puzzle {
         let minDistance = Number.MAX_VALUE;
         let nearest = null;
         for (let i = 0; i < pieces.length; i++) {
+            if(target == pieces[i]){
+                continue;
+            }
             if (this.isOverLap(target, pieces[i])) {
                 tempArray.push(pieces[i]);
             }
         }
         // 遍历数组,计算每个元素与移动元素的中心点的位置返回最小值
         for (let i = 0; i < tempArray.length; i++) {
-            if (this.getDistance(target, tempArray[i]) < minDistance) {
-                minDistance = this.getDistance(target, tempArray[i]);
+    
+            let currentDistance = this.getDistance(target,tempArray[i]);
+            if (currentDistance < minDistance) {
+                minDistance = currentDistance;
                 nearest = tempArray[i];
             }
-
         }
         return nearest;
     }
@@ -208,33 +203,41 @@ class Puzzle {
         return !(T1 > B2 || R1 < L2 || B1 < T2 || L1 > R2);
     }
     // 返回两个元素之间的距离
-    getDistance(obj1, obj2) {
-        let x1 = obj1.offsetLeft + obj1.offsetWidth / 2;
-        let y1 = obj1.offsetTop + obj1.offsetHeight / 2;
-        let x2 = obj2.offsetLeft + obj2.offsetWidth / 2;
-        let y2 = obj2.offsetTop + obj2.offsetHeight / 2;
-        return this.getSqrt(x2 - x1, y2 - y1);
-    }
-    getSqrt(a, b) {
-        return Math.sqrt((a * a) + (b * b));
+   
+    getDistance(obj1,obj2){
+        let a = (obj1.offsetLeft + obj1.offsetWidth/2) - (obj2.offsetLeft +obj2.offsetWidth/2);
+        let b = (obj1.offsetTop + obj1.offsetHeight/2) - (obj2.offsetTop+obj2.offsetHeight/2);
+
+        return Math.sqrt(a*a +b*b);
     }
 
     swap(obj1, obj2) {
-        this.startMove(obj1, this.posData[obj2.index]);
-        this.startMove(obj2, this.posData[obj1.index]);
+        [obj1.index,obj2.index] = [obj2.index,obj1.index];
+        this.startMove(obj1, this.posData[obj1.index]);
+        this.startMove(obj2, this.posData[obj2.index],()=>{
+            if (this.finish()) {
+                this.callback();
+                this.createMask();
+            }
+        });
+        // 交换indexes数组的位置
+        let index1 = obj1.index;
+        let index2 = obj2.index;
+        [this.indexes[index1],this.indexes[index2]] = [this.indexes[index2],this.indexes[index1]];
     }
-    startMove(target, position) {
+    startMove(target, position,fnEnd) {
         clearInterval(target.timer);
         target.timer = setInterval(() => {
-            this.doMove(target, position);
+            this.doMove(target, position,fnEnd);
         }, 30);
     }
-    doMove(target, position) {
+    doMove(target, position,fnEnd) {
         let eachStepX = (position.left-target.offsetLeft )/5;
         let eachStepY = (position.top- target.offsetTop )/5;  
         eachStepX = eachStepX > 0 ? Math.ceil(eachStepX) : Math.floor(eachStepX);
         eachStepY = eachStepY > 0 ? Math.ceil(eachStepY) : Math.floor(eachStepY);
         if (target.offsetTop == position.top && target.offsetLeft == position.left) {
+            fnEnd && fnEnd();
             clearInterval(target.timer);
         } else {
             target.style.left = target.offsetLeft + eachStepX + 'px';
@@ -281,3 +284,4 @@ function playGame(choice, isStart = true) {
 function win() {
     alert('you win!');
 }
+
