@@ -1,0 +1,26 @@
+body {
+    background-color: rgba(0, 0, 0, 1);
+}
+
+nav {
+    border-bottom: 1px solid rgba(255, 255, 255, 1);
+    padding: 10px;
+    text-align: center;
+}
+
+a {
+    display: inline-block;
+    width: 100px;
+    height: 30px;
+    margin: 0 10px;
+    border-radius: 10px;
+    line-height: 30px;
+    background-color: rgba(219, 112, 147, 1);
+}
+
+a:hover {
+    background-color: rgba(220, 20, 60, 1);
+}
+a.active{
+    background-color:rgba(255,0,0,1) ;
+}
