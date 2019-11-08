@@ -21,6 +21,24 @@ a {
 a:hover {
     background-color: rgba(220, 20, 60, 1);
 }
-a.active{
-    background-color:rgba(255,0,0,1) ;
+
+a.active {
+    background-color: rgba(255, 0, 0, 1);
+}
+
+#sky {
+    height: 550px;
+}
+
+#sky .fire {
+    position: absolute;
+    width: 5px;
+    height: 30px;
+    background-color: sandybrown;
+}
+
+#sky .dot {
+    position: absolute;
+    width: 5px;
+    height: 5px;
 }
