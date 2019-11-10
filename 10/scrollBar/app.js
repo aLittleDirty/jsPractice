@@ -16,7 +16,8 @@ class ScrollBar {
         this.upBtn = get.byClassName('up',this.obj)[0];
         this.downBtn = get.byClassName('down',this.obj)[0];
         this.list = get.byClassName('list')[0];
-        this.oneHeight = this.list.firstChild.height;
+        this.items = this.list.children;
+        this.oneHeight = this.items[0].offsetHeight;
         this.timer= null;
         this.initButton();
     }
@@ -25,14 +26,14 @@ class ScrollBar {
         this.downBtn.addEventListener('click',this.down.bind(this));
     }
     up(){
-      this.list.insertBefore(this.list[this.list.length-1],this.list.firstChild);
+      this.list.insertBefore(this.items[this.items.length-1],this.items[0]);
       this.list.style.top = - this.oneHeight + "px";
       this.doMove(0);
     }
     down(){
         this.doMove(-this.oneHeight,()=>{
-            this.list.appendChild(this.list.firstChild);
-            this.list.style.top = -this.oneHeight + "px";
+            this.list.appendChild(this.items[0]);
+            this.list.style.top = 0 ;
         })
     }
     doMove(targetPos,callback){
@@ -50,3 +51,9 @@ class ScrollBar {
        
     }
 }
+
+
+
+let obj = get.byId('scrollBar');
+let myScroll = new ScrollBar(obj);
+
